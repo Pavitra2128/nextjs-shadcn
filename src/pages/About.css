@@ -1,0 +1,43 @@
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+  }
+  
+  h2 {
+    font-size: 20px;
+    color: #3498db;
+    margin-top: 20px;
+  }
+  
+  p {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .history,
+  .mission,
+  .values {
+    margin-top: 30px;
+  }
+  
+  .history,
+  .mission,
+  .values {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  

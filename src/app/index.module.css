@@ -1,0 +1,132 @@
+/* index.module.css */
+
+/* Add these styles at the end of the file */
+.navbar {
+  background-color: #114f8b;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  max-height: 40px;
+}
+
+.selectedBranch {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+
+.blueBackground {
+  background-color: #114f8b; /* Blue background for Hyderabad */
+}
+
+.greenBackground {
+  background-color: #2ecc71; /* Green background for Bhimavaram */
+}
+
+.navLinks {
+  list-style-type: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navLink {
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.searchSection {
+  background: linear-gradient(78.78deg, #114f8b 5.2%, #2a9ad7);
+  flex-direction: row;
+  max-width: 100%;
+  text-align: center;
+  color: white;
+  font-family: var(--font-baloo-bhai);
+  padding: 20px; /* Reduced padding */
+}
+
+.motivationalQuote {
+  margin-top: 50px; /* Adjust spacing */
+}
+
+.quote {
+  font-size: 24px;
+  color: #ffffff; /* White text */
+  font-style: italic;
+}
+
+/* Dropdown styles */
+.dropdown {
+  display: none;
+  position: absolute;
+  background-color: #343a40; /* Dark background */
+  padding: 10px;
+  z-index: 1;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  transition: opacity 0.3s ease; /* Added transition */
+}
+
+.navLinks li:hover .dropdown {
+  display: block;
+}
+
+.dropdownItem {
+  color: #ffffff; 
+  text-decoration: none;
+  display: block;
+  padding: 8px 15px; /* Adjust padding */
+  transition: background-color 0.3s ease; /* Added transition */
+}
+
+.dropdownItem:hover {
+  background-color: #17a2b8; /* Light blue on hover */
+}
+
+/* Login form styles */
+.loginForm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 400px;
+}
+
+.loginForm input {
+  width: calc(100% - 40px);
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.loginForm button {
+  width: calc(100% - 40px);
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #114f8b;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.loginForm button:hover {
+  background-color: #0e3e6f;
+}
