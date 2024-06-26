@@ -1,131 +1,107 @@
-import Link from 'next/link';
-import { useState } from 'react';
+// pages/index.js
 
-const HeroSection = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [showBranchesDropdown, setShowBranchesDropdown] = useState(false);
-  const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
+import React, { useState, useEffect } from 'react';
+import { Calendar } from '@/components/ui/calendar';
+import axios from 'axios';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
-  const handleMouseEnter = () => {
-    setShowDropdown(true);
+const CalendarDemo = () => {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [eventName, setEventName] = useState('');
+  const [eventDays, setEventDays] = useState(1);
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get('/api/events');
+        setEvents(response.data);
+      } catch (error) {
+        console.error('There was an error fetching the events!', error);
+      }
+    };
+    fetchEvents();
+  }, []);
+
+  const handleDateSelect = (date) => {
+    setSelectedDate(date);
   };
 
-  const handleMouseLeave = () => {
-    setShowDropdown(false);
-  };
-
-  const handleBranchesMouseEnter = () => {
-    setShowBranchesDropdown(true);
-  };
-
-  const handleBranchesMouseLeave = () => {
-    setShowBranchesDropdown(false);
-  };
-
-  const handleBranchClick = (branchName: string) => {
-    setSelectedBranch(branchName);
-    setShowBranchesDropdown(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (selectedDate) {
+      try {
+        await axios.post('/api/addEvent', {
+          date: selectedDate,
+          name: eventName,
+          days: eventDays,
+        });
+        alert('Event added successfully!');
+        setEventName('');
+        setEventDays(1);
+        // Fetch the events again to update the calendar
+        const response = await axios.get('/api/events');
+        setEvents(response.data);
+      } catch (error) {
+        console.error('There was an error adding the event!', error);
+      }
+    }
   };
 
   return (
-    <div className="relative">
-      <nav className="bg-blue-900 p-5 flex justify-between items-center">
-        <div className="logo">
-          <Link href="/">
-            <img src="https://d2lk14jtvqry1q.cloudfront.net/media/large_243_79d258292c_b9de0c1ce3.png" alt="SVECW Logo" className="h-10" />
-          </Link>
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <div className="max-w-3xl w-full p-4 bg-white shadow-lg rounded-lg flex">
+        <div className="w-2/3 pr-4">
+          <div className="mb-8">
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={handleDateSelect}
+              fromYear={2020}
+              toYear={2030}
+              events={events} // Pass events data to the calendar
+            />
+          </div>
         </div>
-        <ul className="flex space-x-5 text-white">
-          <li>
-            <Link href="/about">
-              <div className="cursor-pointer">About Us</div>
-            </Link>
-          </li>
-          <li
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className="relative"
-          >
-            <div className="cursor-pointer">Departments</div>
-            {showDropdown && (
-              <ul className="absolute left-0 mt-2 bg-gray-800 rounded-lg shadow-lg p-2 space-y-2 z-10">
-                <li>
-                  <Link href="/departments/cse">
-                    <div className="text-white hover:bg-blue-500 p-2 rounded">Computer Science & Engineering (CSE)</div>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/departments/aiml">
-                    <div className="text-white hover:bg-blue-500 p-2 rounded">Artificial Intelligence & Machine Learning (AIML)</div>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/departments/arts">
-                    <div className="text-white hover:bg-blue-500 p-2 rounded">Arts</div>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/departments/mechanical">
-                    <div className="text-white hover:bg-blue-500 p-2 rounded">Mechanical Engineering</div>
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/departments/civil">
-                    <div className="text-white hover:bg-blue-500 p-2 rounded">Civil Engineering</div>
-                  </Link>
-                </li>
-              </ul>
-            )}
-          </li>
-          <li
-            onMouseEnter={handleBranchesMouseEnter}
-            onMouseLeave={handleBranchesMouseLeave}
-            className="relative"
-          >
-            <div className="cursor-pointer">Branches</div>
-            {showBranchesDropdown && (
-              <ul className="absolute left-0 mt-2 bg-gray-800 rounded-lg shadow-lg p-2 space-y-2 z-10">
-                <li onClick={() => handleBranchClick('Bhimavaram')}>
-                  <div className="text-white hover:bg-green-500 p-2 rounded">Bhimavaram</div>
-                </li>
-                <li onClick={() => handleBranchClick('Hyderabad')}>
-                  <div className="text-white hover:bg-blue-500 p-2 rounded">Hyderabad</div>
-                </li>
-              </ul>
-            )}
-          </li>
-          <li>
-            <Link href="/login">
-              <div className="cursor-pointer">Login</div>
-            </Link>
-          </li>
-          <li>
-            <Link href="/signup">
-              <div className="cursor-pointer">Signup</div>
-            </Link>
-          </li>
-          <li>
-            <Link href="/StudentsPage">
-              <div className="cursor-pointer">Students</div>
-            </Link>
-          </li>
-          <li>
-            <Link href="/contact">
-              <div className="cursor-pointer">Contact Us</div>
-            </Link>
-          </li>
-        </ul>
-      </nav>
-      <section className="bg-gradient-to-r from-blue-900 to-blue-400 p-20 text-center text-white">
-        <div className="text-3xl italic font-semibold">“Empowering Women Through Engineering Excellence”</div>
-      </section>
-      {selectedBranch && (
-        <div className={`fixed top-1/2 right-5 transform -translate-y-1/2 text-white p-5 rounded-lg shadow-lg z-50 ${selectedBranch === 'Hyderabad' ? 'bg-blue-900' : 'bg-green-500'}`}>
-          {selectedBranch}
-        </div>
-      )}
+        {selectedDate && (
+          <div className="w-1/3 pl-4">
+            <div className="bg-white p-6 rounded-md shadow-md">
+              <h2 className="text-xl mb-4">Add Event</h2>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Event Name:</label>
+                  <Input
+                    type="text"
+                    value={eventName}
+                    onChange={(e) => setEventName(e.target.value)}
+                    className="w-full border border-gray-300 p-2 rounded"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Number of Days:</label>
+                  <Input
+                    type="number"
+                    value={eventDays}
+                    onChange={(e) => setEventDays(parseInt(e.target.value))}
+                    className="w-full border border-gray-300 p-2 rounded"
+                    required
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                >
+                  Add Event
+                </Button>
+              </form>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default HeroSection;
+export default CalendarDemo;
