@@ -4,19 +4,36 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // Assuming you have Lucide icons imported
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>;
+export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+  eventDates: string[];
+};
 
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
+  eventDates = [],
   ...props
 }: CalendarProps) {
+  const formatDate = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const modifiers = {
+    hasEvent: (date: Date) => {
+      const formattedDate = formatDate(date);
+      return eventDates.includes(formattedDate);
+    }
+  };
+
   return (
     <div className="w-full h-full flex justify-center items-center border-10 border-gray-300 rounded-lg">
       <DayPicker
         showOutsideDays={showOutsideDays}
-        className={cn("p-4", className, "w-full md:w-10/3 lg:w-1/15")} // Adjusted padding and width to fit within the outlined border
+        className={cn("p-4", className, "w-full md:w-10/3 lg:w-1/15")}
         classNames={{
           months: "grid grid-cols-20 gap-2",
           month: "",
@@ -38,7 +55,7 @@ function Calendar({
             "h-16 w-16 text-center text-sm p-1 relative rounded-md focus-within:relative focus-within:z-20 bg-white border border-gray-200 flex items-center justify-center",
           day: cn(
             buttonVariants({ variant: "ghost" }),
-            "h-full w-full p-0 font-normal"
+            "h-full w-full p-0 font-normal relative"
           ),
           day_range_end: "bg-blue-200",
           day_selected:
@@ -49,7 +66,7 @@ function Calendar({
           day_disabled: "text-gray-400 cursor-not-allowed",
           ...classNames,
         }}
-        
+        modifiers={modifiers}
         components={{
           IconLeft: () => <ChevronLeft className="h-4 w-4" />,
           IconRight: () => <ChevronRight className="h-4 w-4" />,
@@ -59,7 +76,7 @@ function Calendar({
       />
     </div>
   );
-};
+}
 
 Calendar.displayName = "Calendar";
 
