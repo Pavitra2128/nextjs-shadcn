@@ -10,9 +10,10 @@ const con = mysql2.createPool({
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { date, name, days } = req.body;
-    const query = 'INSERT INTO events (event_date, event_name, event_days) VALUES (?, ?, ?)';
-    con.query(query, [date, name, days], (err, result) => {
+    const { startDate, endDate, name } = req.body;
+    const days = (new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24) + 1;
+    const query = 'INSERT INTO events (event_date, to_date, event_name, event_days) VALUES (?, ?, ?, ?)';
+    con.query(query, [startDate, endDate, name, days], (err, result) => {
       if (err) {
         console.error('Error inserting event:', err);
         res.status(500).send('Error inserting event');
@@ -21,31 +22,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       console.log('Event added successfully:', result);
       res.status(200).send('Event added successfully');
     });
-  } else if (req.method === 'PUT') { // Handle update request
-    const { id, date, name, days } = req.body;
-    const query = 'UPDATE events SET event_date = ?, event_name = ?, event_days = ? WHERE id = ?';
-    con.query(query, [date, name, days, id], (err, result) => {
-      if (err) {
-        console.error('Error updating event:', err);
-        res.status(500).send('Error updating event');
-        return;
-      }
-      console.log('Event updated successfully:', result);
-      res.status(200).send('Event updated successfully');
-    });
-  } else if (req.method === 'DELETE') { // Handle delete request
-    const { id } = req.body;
-    const query = 'DELETE FROM events WHERE id = ?';
-    con.query(query, [id], (err, result) => {
-      if (err) {
-        console.error('Error deleting event:', err);
-        res.status(500).send('Error deleting event');
-        return;
-      }
-      console.log('Event deleted successfully:', result);
-      res.status(200).send('Event deleted successfully');
-    });
-  }else {
-    res.status(405).send('Method Not Allowed');
+  } else {
+    res.status(405).json({ error: 'Method Not Allowed' });
   }
 }
