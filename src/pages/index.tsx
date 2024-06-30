@@ -5,16 +5,23 @@ import { Button } from '@/components/ui/button';
 import { DatePickerWithRange } from '@/components/ui/DatePickerWithRange';
 import { Calendar } from '@/components/ui/Calendar';
 
-
 interface Event {
   id: number;
+  temple_id: number;
   event_date: string;
-  event_end_date: string;
+  to_date: string;
   event_name: string;
+  event_days: number;
+}
 
+interface Temple {
+  id: number;
+  name: string;
 }
 
 const CalendarDemo: React.FC = () => {
+  const [selectedTemple, setSelectedTemple] = useState<number | null>(null);
+  const [temples, setTemples] = useState<Temple[]>([]);
   const [selectedDateRange, setSelectedDateRange] = useState<{ from: Date | undefined; to: Date | undefined }>({ from: undefined, to: undefined });
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [eventName, setEventName] = useState('');
@@ -23,16 +30,30 @@ const CalendarDemo: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const fetchTemples = async () => {
       try {
-        const response = await axios.get<Event[]>('http://localhost:3000/api/getEvents');
-        setEvents(response.data);
+        const response = await axios.get<Temple[]>('http://localhost:3000/api/getTemples');
+        setTemples(response.data);
       } catch (error) {
-        console.error('There was an error fetching the events!', error);
+        console.error('There was an error fetching the temples!', error);
       }
     };
-    fetchEvents();
+    fetchTemples();
   }, []);
+
+  useEffect(() => {
+    if (selectedTemple !== null) {
+      const fetchEvents = async () => {
+        try {
+          const response = await axios.get<Event[]>(`http://localhost:3000/api/getEvents?templeId=${selectedTemple}`);
+          setEvents(response.data);
+        } catch (error) {
+          console.error('There was an error fetching the events!', error);
+        }
+      };
+      fetchEvents();
+    }
+  }, [selectedTemple]);
 
   const formatDate = (date: Date): string => {
     const year = date.getFullYear();
@@ -49,7 +70,7 @@ const CalendarDemo: React.FC = () => {
     if (date) {
       const eventsForDate = events.filter(event => {
         const eventStartDate = new Date(event.event_date);
-        const eventEndDate = new Date(event.event_end_date);
+        const eventEndDate = new Date(event.to_date);
         return date >= eventStartDate && date <= eventEndDate;
       });
       setSelectedDate(date);
@@ -57,13 +78,13 @@ const CalendarDemo: React.FC = () => {
       setShowForm(true);
     }
   };
-  
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (selectedDateRange.from && selectedDateRange.to) {
+    if (selectedDateRange.from && selectedDateRange.to && selectedTemple !== null) {
       try {
         await axios.post('http://localhost:3000/api/addEvent', {
+          templeId: selectedTemple,
           startDate: formatDate(selectedDateRange.from),
           endDate: formatDate(selectedDateRange.to),
           name: eventName,
@@ -71,7 +92,7 @@ const CalendarDemo: React.FC = () => {
         alert('Event added successfully!');
         setEventName('');
         setSelectedDateRange({ from: undefined, to: undefined });
-        const response = await axios.get<Event[]>('http://localhost:3000/api/getEvents');
+        const response = await axios.get<Event[]>(`http://localhost:3000/api/getEvents?templeId=${selectedTemple}`);
         setEvents(response.data);
       } catch (error) {
         console.error('There was an error adding the event!', error);
@@ -85,6 +106,16 @@ const CalendarDemo: React.FC = () => {
         <div className="w-2/3 pr-4">
           <div className="mb-8">
             <h2 className="text-2xl mb-4 font-bold">Events</h2>
+            <select
+              value={selectedTemple ?? ''}
+              onChange={(e) => setSelectedTemple(Number(e.target.value))}
+              className="mb-4 p-2 border border-gray-300 rounded"
+            >
+              <option value="" disabled>Select a Temple</option>
+              {temples.map(temple => (
+                <option key={temple.id} value={temple.id}>{temple.name}</option>
+              ))}
+            </select>
             <Calendar
               mode="single"
               selected={selectedDate}
@@ -133,7 +164,7 @@ const CalendarDemo: React.FC = () => {
                     <ul>
                       {eventsForSelectedDate.map(event => (
                         <li key={event.id} className="mb-2">
-                          {event.event_name} ( days)
+                          {event.event_name} ({event.event_days} days)
                         </li>
                       ))}
                     </ul>
@@ -151,3 +182,4 @@ const CalendarDemo: React.FC = () => {
 };
 
 export default CalendarDemo;
+

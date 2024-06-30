@@ -10,14 +10,14 @@ const con = mysql2.createPool({
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
-    const query = 'SELECT * FROM events';
-    con.query(query, (err, results) => {
+    const { templeId } = req.query;
+    const query = 'SELECT * FROM events WHERE temple_id = ?';
+    con.query(query, [templeId], (err, results) => {
       if (err) {
         console.error('Error fetching events:', err);
         res.status(500).json({ error: 'Error fetching events' });
         return;
       }
-      console.log('Fetched events:', results);
       res.status(200).json(results);
     });
   } else {
