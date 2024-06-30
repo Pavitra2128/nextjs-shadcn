@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DatePickerWithRange } from '@/components/ui/DatePickerWithRange';
-import { Calendar } from '@/components/ui/Calendar';
+import { Calendar } from '@/components/ui/calendar';
 
 interface Event {
   id: number;
@@ -18,6 +18,16 @@ interface Temple {
   id: number;
   name: string;
 }
+
+const getDatesInRange = (startDate: string | number | Date, endDate: number | Date) => {
+  const dates = [];
+  let currentDate = new Date(startDate);
+  while (currentDate <= endDate) {
+    dates.push(new Date(currentDate));
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  return dates;
+};
 
 const CalendarDemo: React.FC = () => {
   const [selectedTemple, setSelectedTemple] = useState<number | null>(null);
@@ -100,6 +110,16 @@ const CalendarDemo: React.FC = () => {
     }
   };
 
+  // Generate the array of all event dates
+  const allEventDates = events.flatMap(event => {
+    const startDate = new Date(event.event_date);
+    const endDate = new Date(event.to_date);
+    return getDatesInRange(startDate, endDate);
+  });
+
+  // Format the dates
+  const formattedEventDates = allEventDates.map(date => formatDate(date));
+
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="max-w-3xl w-full p-4 bg-white shadow-lg rounded-lg flex">
@@ -122,7 +142,8 @@ const CalendarDemo: React.FC = () => {
               onSelect={handleDateSelect}
               fromYear={2020}
               toYear={2030}
-              eventDates={events.map(event => formatDate(new Date(event.event_date)))}
+              
+              eventDates={formattedEventDates}
             />
           </div>
         </div>
