@@ -30,6 +30,13 @@ function Calendar({
     }
   };
 
+  const modifiersStyles = {
+    hasEvent: {
+      backgroundColor: 'pink',
+      color: 'white',
+    }
+  };
+
   return (
     <div className="w-full h-full flex justify-center items-center border-10 border-gray-300 rounded-lg">
       <DayPicker
@@ -48,12 +55,12 @@ function Calendar({
           nav_button_previous: "ml-2",
           nav_button_next: "mr-2",
           table: "w-full border-collapse",
-          head_row: "flex",
+          head_row: "grid grid-cols-7 gap-8 mb-2",
           head_cell:
-            "text-gray-600 rounded-md w-12 font-normal text-sm",
+            "text-gray-600 font-normal text-sm text-center",
           row: "grid grid-cols-7 gap-8",
           cell:
-            "h-16 w-16 text-center text-sm p-1 relative rounded-md focus-within:relative focus-within:z-20 bg-white border border-gray-200 flex items-center justify-center",
+            "h-16 w-16 text-center text-sm p-1 relative rounded-md focus-within:relative focus-within:z-20 bg-white border border-gray-200 flex items-center justify-end",
           day: cn(
             buttonVariants({ variant: "ghost" }),
             "h-full w-full p-0 font-normal relative"
@@ -68,6 +75,7 @@ function Calendar({
           ...classNames,
         }}
         modifiers={modifiers}
+        modifiersStyles={modifiersStyles}
         components={{
           IconLeft: () => <ChevronLeft className="h-4 w-4" />,
           IconRight: () => <ChevronRight className="h-4 w-4" />,
