@@ -3,14 +3,15 @@ import axios from 'axios';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DatePickerWithRange } from '@/components/ui/DatePickerWithRange';
-import { Calendar } from '@/components/ui/calendar';
+import { Calendar } from '@/components/ui/Calendar';
+
 
 interface Event {
   id: number;
   event_date: string;
-  to_date: string;
+  event_end_date: string;
   event_name: string;
-  event_days: number;
+
 }
 
 const CalendarDemo: React.FC = () => {
@@ -48,7 +49,7 @@ const CalendarDemo: React.FC = () => {
     if (date) {
       const eventsForDate = events.filter(event => {
         const eventStartDate = new Date(event.event_date);
-        const eventEndDate = new Date(event.to_date);
+        const eventEndDate = new Date(event.event_end_date);
         return date >= eventStartDate && date <= eventEndDate;
       });
       setSelectedDate(date);
@@ -132,7 +133,7 @@ const CalendarDemo: React.FC = () => {
                     <ul>
                       {eventsForSelectedDate.map(event => (
                         <li key={event.id} className="mb-2">
-                          {event.event_name} ({event.event_days} days)
+                          {event.event_name} ( days)
                         </li>
                       ))}
                     </ul>

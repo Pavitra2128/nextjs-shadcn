@@ -5,7 +5,7 @@ const con = mysql2.createPool({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'piltovr',
+  database: 'temple',
 });
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

@@ -7,7 +7,7 @@ import { DateRange } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/Calender";
+import { CalenderDates } from "@/components/ui/CalenderDates";
 import {
   Popover,
   PopoverContent,
@@ -70,7 +70,7 @@ export function DatePickerWithRange({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
-          <Calendar
+          <CalenderDates
             initialFocus
             mode="range"
             defaultMonth={date?.from}
