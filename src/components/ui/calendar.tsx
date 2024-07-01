@@ -3,7 +3,6 @@ import { DayPicker } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // Assuming you have Lucide icons imported
-import { useEffect, useState } from "react";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   eventDates: string[];
@@ -30,11 +29,8 @@ function Calendar({
     }
   };
 
-  const modifiersStyles = {
-    hasEvent: {
-      backgroundColor: 'pink',
-      color: 'white',
-    }
+  const modifiersClassNames = {
+    hasEvent: 'has-event' // Use the class defined in the global CSS
   };
 
   return (
@@ -75,7 +71,7 @@ function Calendar({
           ...classNames,
         }}
         modifiers={modifiers}
-        modifiersStyles={modifiersStyles}
+        modifiersClassNames={modifiersClassNames}
         components={{
           IconLeft: () => <ChevronLeft className="h-4 w-4" />,
           IconRight: () => <ChevronRight className="h-4 w-4" />,
@@ -90,4 +86,3 @@ function Calendar({
 Calendar.displayName = "Calendar";
 
 export { Calendar };
-
