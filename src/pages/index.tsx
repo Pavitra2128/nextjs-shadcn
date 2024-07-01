@@ -85,6 +85,7 @@ const CalendarDemo: React.FC = () => {
       });
       setSelectedDate(date);
       setEventsForSelectedDate(eventsForDate);
+      setSelectedDateRange({ from: date||undefined, to: date||undefined });
       setShowForm(true);
     }
   };
@@ -142,7 +143,6 @@ const CalendarDemo: React.FC = () => {
               onSelect={handleDateSelect}
               fromYear={2020}
               toYear={2030}
-              
               eventDates={formattedEventDates}
             />
           </div>
