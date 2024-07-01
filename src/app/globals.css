@@ -80,14 +80,14 @@
   position: relative;
 }
 
-.has-event::before {
+.has-event::after {
   content: '';
   position: absolute;
-  top: 2px;
+  bottom: 2px;
   left: 50%;
   transform: translateX(-50%);
-  width: 6px;
-  height: 6px;
-  background-color: red;
+  width: 4px;
+  height: 4px;
+  background-color: red; /* ash color */
   border-radius: 50%;
 }
