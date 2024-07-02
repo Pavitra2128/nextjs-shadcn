@@ -221,7 +221,7 @@ const CalendarDemo: React.FC = () => {
                       {eventsForSelectedDate.map(event => (
                         <li key={event.id} className="mb-2 flex justify-between items-center">
                           <div>
-                            {event.event_name} ({event.event_days} days)
+                            {event.event_name} ({formatDate(new Date(event.event_date))} to {formatDate(new Date(event.to_date))})
                           </div>
                           <div>
                             <Button onClick={() => handleUpdate(event)} className="mr-2 bg-yellow-500 text-white px-2 py-1 rounded">
