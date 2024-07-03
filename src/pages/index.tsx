@@ -4,6 +4,10 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DatePickerWithRange } from '@/components/ui/DatePickerWithRange';
 import { Calendar } from '@/components/ui/calendar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface Event {
   id: number;
@@ -30,7 +34,7 @@ const getDatesInRange = (startDate: string | number | Date, endDate: string | nu
 };
 
 const CalendarDemo: React.FC = () => {
-  const [selectedTemple, setSelectedTemple] = useState<number | null>(null);
+  const [selectedTemple, setSelectedTemple] = useState<number>(1); // Default to Temple 1
   const [temples, setTemples] = useState<Temple[]>([]);
   const [selectedDateRange, setSelectedDateRange] = useState<{ from: Date | undefined; to: Date | undefined }>({ from: undefined, to: undefined });
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -45,6 +49,7 @@ const CalendarDemo: React.FC = () => {
       try {
         const response = await axios.get<Temple[]>('http://localhost:3000/api/getTemples');
         setTemples(response.data);
+        setSelectedTemple(response.data[0].id); // Set default temple to the first one in the list
       } catch (error) {
         console.error('There was an error fetching the temples!', error);
       }
@@ -104,7 +109,7 @@ const CalendarDemo: React.FC = () => {
             endDate: formatDate(selectedDateRange.to),
             name: eventName,
           });
-          alert('Event updated successfully!');
+          toast.success('Event updated successfully!');
           setUpdateEventId(null);
         } else {
           // Add event
@@ -114,7 +119,7 @@ const CalendarDemo: React.FC = () => {
             endDate: formatDate(selectedDateRange.to),
             name: eventName,
           });
-          alert('Event added successfully!');
+          toast.success('Event added successfully!');
         }
         setEventName('');
         setSelectedDateRange({ from: undefined, to: undefined });
@@ -122,6 +127,7 @@ const CalendarDemo: React.FC = () => {
         setEvents(response.data);
       } catch (error) {
         console.error('There was an error adding/updating the event!', error);
+        toast.error('There was an error adding/updating the event!');
       }
     }
   };
@@ -138,11 +144,12 @@ const CalendarDemo: React.FC = () => {
       await axios.delete('http://localhost:3000/api/deleteEvent', {
         data: { eventId },
       });
-      alert('Event deleted successfully!');
+      toast.success('Event deleted successfully!');
       const response = await axios.get<Event[]>(`http://localhost:3000/api/getEvents?templeId=${selectedTemple}`);
       setEvents(response.data);
     } catch (error) {
       console.error('There was an error deleting the event!', error);
+      toast.error('There was an error deleting the event!');
     }
   };
 
@@ -216,33 +223,42 @@ const CalendarDemo: React.FC = () => {
               {selectedDate && (
                 <div className="bg-white p-4 rounded-md shadow-md">
                   <h2 className="text-xl mb-4">Events on {formatDate(selectedDate)}</h2>
-                  {eventsForSelectedDate.length > 0 ? (
-                    <ul>
-                      {eventsForSelectedDate.map(event => (
-                        <li key={event.id} className="mb-2 flex justify-between items-center">
-                          <div>
-                            {event.event_name} ({formatDate(new Date(event.event_date))} to {formatDate(new Date(event.to_date))})
-                          </div>
-                          <div>
-                            <Button onClick={() => handleUpdate(event)} className="mr-2 bg-yellow-500 text-white px-2 py-1 rounded">
-                              Update
-                            </Button>
-                            <Button onClick={() => handleDelete(event.id)} className="bg-red-500 text-white px-2 py-1 rounded">
-                              Delete
-                            </Button>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p>No events on this date</p>
-                  )}
+                  <div className="max-h-48 overflow-y-auto">
+                    {eventsForSelectedDate.length > 0 ? (
+                      <ul>
+                        {eventsForSelectedDate.map(event => (
+                          <li key={event.id} className="mb-4">
+                            <div className="flex justify-between items-center mb-2">
+                              <div className="font-semibold">{event.event_name}</div>
+                              <div className="flex space-x-2">
+                                <button onClick={() => handleUpdate(event)} className="w-8 h-8 flex items-center justify-center bg-yellow-500 text-white rounded-full">
+                                  <FontAwesomeIcon icon={faPencilAlt} />
+                                </button>
+                                <button onClick={() => handleDelete(event.id)} className="w-8 h-8 flex items-center justify-center bg-red-500 text-white rounded-full">
+                                  <FontAwesomeIcon icon={faTrash} />
+                                </button>
+                              </div>
+                            </div>
+                            <div className="text-gray-600">
+                              {formatDate(new Date(event.event_date))} to {formatDate(new Date(event.to_date))}
+                            </div>
+                            <div className="text-gray-600">
+                              Event Days: {event.event_days}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p>No events on this date</p>
+                    )}
+                  </div>
                 </div>
               )}
             </>
           )}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
