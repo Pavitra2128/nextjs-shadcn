@@ -4,6 +4,22 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DatePickerWithRange } from '@/components/ui/DatePickerWithRange';
 import { Calendar } from '@/components/ui/calendar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { toast, ToastContainer } from 'react-toastify';
@@ -35,7 +51,7 @@ const getDatesInRange = (startDate: string | number | Date, endDate: string | nu
 };
 
 const CalendarDemo: React.FC = () => {
-  const [selectedTemple, setSelectedTemple] = useState<number>(1); // Default to Temple 1
+  const [selectedTemple, setSelectedTemple] = useState<number | null>(null); // Default to null
   const [temples, setTemples] = useState<Temple[]>([]);
   const [selectedDateRange, setSelectedDateRange] = useState<{ from: Date | undefined; to: Date | undefined }>({ from: undefined, to: undefined });
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -44,13 +60,16 @@ const CalendarDemo: React.FC = () => {
   const [eventsForSelectedDate, setEventsForSelectedDate] = useState<Event[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [updateEventId, setUpdateEventId] = useState<number | null>(null);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [deleteEventId, setDeleteEventId] = useState<number | null>(null);
+  const [actionType, setActionType] = useState<'delete' | 'edit' | null>(null); // Track action type for AlertDialog
 
   useEffect(() => {
     const fetchTemples = async () => {
       try {
         const response = await axios.get<Temple[]>('http://localhost:3000/api/getTemples');
         setTemples(response.data);
-        setSelectedTemple(response.data[0].id); // Set default temple to the first one in the list
+        setSelectedTemple(response.data[0]?.id ?? null); // Set default temple to the first one in the list if available
       } catch (error) {
         console.error('There was an error fetching the temples!', error);
       }
@@ -140,18 +159,21 @@ const CalendarDemo: React.FC = () => {
     setShowForm(true);
   };
 
-  const handleDelete = async (eventId: number) => {
-    try {
-      await axios.delete('http://localhost:3000/api/deleteEvent', {
-        data: { eventId },
-      });
-      toast.success('Event deleted successfully!');
-      const response = await axios.get<Event[]>(`http://localhost:3000/api/getEvents?templeId=${selectedTemple}`);
-      setEvents(response.data);
-    } catch (error) {
-      console.error('There was an error deleting the event!', error);
-      toast.error('There was an error deleting the event!');
+  const handleDelete = async () => {
+    if (deleteEventId && selectedTemple !== null) {
+      try {
+        await axios.delete('http://localhost:3000/api/deleteEvent', {
+          data: { eventId: deleteEventId },
+        });
+        toast.success('Event deleted successfully!');
+        const response = await axios.get<Event[]>(`http://localhost:3000/api/getEvents?templeId=${selectedTemple}`);
+        setEvents(response.data);
+      } catch (error) {
+        console.error('There was an error deleting the event!', error);
+        toast.error('There was an error deleting the event!');
+      }
     }
+    setShowDeleteConfirmation(false);
   };
 
   // Generate the array of all event dates
@@ -164,22 +186,36 @@ const CalendarDemo: React.FC = () => {
   // Format the dates
   const formattedEventDates = allEventDates.map(date => formatDate(date));
 
+  const handleEditClick = (event: Event) => {
+    setUpdateEventId(event.id);
+    setEventName(event.event_name);
+    setSelectedDateRange({ from: new Date(event.event_date), to: new Date(event.to_date) });
+    setShowForm(true);
+  };
+
+  const handleDeleteClick = (eventId: number) => {
+    setDeleteEventId(eventId);
+    setActionType('delete');
+    setShowDeleteConfirmation(true);
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="max-w-3xl w-full p-4 bg-white shadow-lg rounded-lg flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 pr-4 mb-4 md:mb-0">
           <div className="mb-4">
             <h2 className="text-2xl mb-4 font-bold">Events</h2>
-            <select
-              value={selectedTemple ?? ''}
-              onChange={(e) => setSelectedTemple(Number(e.target.value))}
-              className="mb-4 p-2 border border-gray-300 rounded w-full"
-            >
-              <option value="" disabled>Select a Temple</option>
-              {temples.map(temple => (
-                <option key={temple.id} value={temple.id}>{temple.name}</option>
-              ))}
-            </select>
+            <DropdownMenu>
+              <DropdownMenuTrigger>{selectedTemple ? temples.find(temp => temp.id === selectedTemple)?.name : 'Select Temple'}</DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {temples.map(temple => (
+                  <DropdownMenuItem key={temple.id} onClick={() => setSelectedTemple(temple.id)}>
+                    {temple.name}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <Calendar
               mode="single"
               selected={selectedDate}
@@ -232,7 +268,7 @@ const CalendarDemo: React.FC = () => {
                           <Button
                             variant="secondary"
                             size="sm"
-                            onClick={() => handleUpdate(event)}
+                            onClick={() => handleEditClick(event)}
                             className="text-blue-500"
                           >
                             <FontAwesomeIcon icon={faPencilAlt} />
@@ -240,7 +276,7 @@ const CalendarDemo: React.FC = () => {
                           <Button
                             variant="secondary"
                             size="sm"
-                            onClick={() => handleDelete(event.id)}
+                            onClick={() => handleDeleteClick(event.id)}
                             className="text-red-500"
                           >
                             <FontAwesomeIcon icon={faTrash} />
@@ -256,6 +292,21 @@ const CalendarDemo: React.FC = () => {
         </div>
       </div>
       <ToastContainer />
+      <AlertDialog open={showDeleteConfirmation}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your event
+              and remove your data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setShowDeleteConfirmation(false)}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={actionType === 'delete' ? handleDelete : () => {}}>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
