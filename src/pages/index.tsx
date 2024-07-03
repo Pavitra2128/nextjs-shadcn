@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import "./styles.css";
 
 interface Event {
   id: number;
@@ -164,9 +165,9 @@ const CalendarDemo: React.FC = () => {
   const formattedEventDates = allEventDates.map(date => formatDate(date));
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="max-w-3xl w-full p-4 bg-white shadow-lg rounded-lg flex">
-        <div className="w-1/2 pr-4">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="max-w-3xl w-full p-4 bg-white shadow-lg rounded-lg flex flex-col md:flex-row">
+        <div className="w-full md:w-1/2 pr-4 mb-4 md:mb-0">
           <div className="mb-4">
             <h2 className="text-2xl mb-4 font-bold">Events</h2>
             <select
@@ -189,7 +190,7 @@ const CalendarDemo: React.FC = () => {
             />
           </div>
         </div>
-        <div className="w-1/2 pl-4">
+        <div className="w-full md:w-1/2 pl-4">
           {showForm && (
             <>
               <div className="bg-white p-4 rounded-md shadow-md mb-4">
@@ -214,7 +215,7 @@ const CalendarDemo: React.FC = () => {
                   </div>
                   <Button
                     type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                    className="bg-blue-500 text-white px-4 py-2 rounded w-full md:w-auto"
                   >
                     {updateEventId ? 'Update Event' : 'Add Event'}
                   </Button>
@@ -222,36 +223,32 @@ const CalendarDemo: React.FC = () => {
               </div>
               {selectedDate && (
                 <div className="bg-white p-4 rounded-md shadow-md">
-                  <h2 className="text-xl mb-4">Events on {formatDate(selectedDate)}</h2>
-                  <div className="max-h-48 overflow-y-auto">
-                    {eventsForSelectedDate.length > 0 ? (
-                      <ul>
-                        {eventsForSelectedDate.map(event => (
-                          <li key={event.id} className="mb-4">
-                            <div className="flex justify-between items-center mb-2">
-                              <div className="font-semibold">{event.event_name}</div>
-                              <div className="flex space-x-2">
-                                <button onClick={() => handleUpdate(event)} className="w-8 h-8 flex items-center justify-center bg-yellow-500 text-white rounded-full">
-                                  <FontAwesomeIcon icon={faPencilAlt} />
-                                </button>
-                                <button onClick={() => handleDelete(event.id)} className="w-8 h-8 flex items-center justify-center bg-red-500 text-white rounded-full">
-                                  <FontAwesomeIcon icon={faTrash} />
-                                </button>
-                              </div>
-                            </div>
-                            <div className="text-gray-600">
-                              {formatDate(new Date(event.event_date))} to {formatDate(new Date(event.to_date))}
-                            </div>
-                            <div className="text-gray-600">
-                              Event Days: {event.event_days}
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p>No events on this date</p>
-                    )}
-                  </div>
+                  <h2 className="text-xl mb-4">Events on {selectedDate.toDateString()}</h2>
+                  <ul>
+                    {eventsForSelectedDate.map(event => (
+                      <li key={event.id} className="mb-2 flex items-center justify-between">
+                        <span>{event.event_name} ({event.event_days} days) - {event.event_date} to {event.to_date}</span>
+                        <div className="flex space-x-2">
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => handleUpdate(event)}
+                            className="text-blue-500"
+                          >
+                            <FontAwesomeIcon icon={faPencilAlt} />
+                          </Button>
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() => handleDelete(event.id)}
+                            className="text-red-500"
+                          >
+                            <FontAwesomeIcon icon={faTrash} />
+                          </Button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               )}
             </>
