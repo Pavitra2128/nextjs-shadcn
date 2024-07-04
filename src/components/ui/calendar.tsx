@@ -68,7 +68,7 @@ function Calendar({
           ),
           day_range_end: "bg-blue-200",
           day_selected:
-            "bg-blue-500 text-white hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white",
+            "bg-cyan-300 text-black hover:bg-cyan-300 hover:text-black focus:bg-cyan-300 focus:text-black",
           day_today: "bg-yellow-200 text-yellow-800",
           day_outside:
             "text-gray-300",

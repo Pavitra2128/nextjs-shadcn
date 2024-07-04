@@ -243,7 +243,10 @@ const CalendarDemo: React.FC = () => {
             <h2 className="text-2xl mb-4 font-bold">Events</h2>
             <DropdownMenu>
               <DropdownMenuTrigger>
-                {selectedTemple ? temples.find(temp => temp.id === selectedTemple)?.name : 'Select Temple'}
+                <div className="flex items-center">
+                  {selectedTemple ? temples.find(temp => temp.id === selectedTemple)?.name : 'Select Temple'}
+                  <ChevronDown className="ml-1 w-4 h-4" />
+                </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {temples.map(temple => (
@@ -311,7 +314,7 @@ const CalendarDemo: React.FC = () => {
                               className="text-blue-500"
                             >
                               <Edit color="blue" size={15} />
-                             
+
                             </Button>
                             <Button
                               variant="primary"
@@ -319,7 +322,7 @@ const CalendarDemo: React.FC = () => {
                               onClick={() => handleDeleteClick(event.id)}
                               className="text-red-500"
                             >
-                              <Trash2 color="red" size={15}/>
+                              <Trash2 color="red" size={15} />
                             </Button>
                           </div>
                         </li>
