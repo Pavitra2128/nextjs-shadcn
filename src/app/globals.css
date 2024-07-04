@@ -77,19 +77,44 @@
 
 .has-event {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.has-event::after {
+.has-event::before {
   content: '';
   position: absolute;
   bottom: 2px;
-  left: 50%;
-  transform: translateX(-50%);
   width: 4px;
   height: 4px;
-  background-color: red; /* ash color */
+  background-color: red; /* Dot color */
   border-radius: 50%;
 }
+
+.has-multiple-events::before {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: calc(50% - 6px); /* Adjust position for multiple dots */
+  width: 4px;
+  height: 4px;
+  background-color: red; /* Dot color */
+  border-radius: 50%;
+}
+
+.has-multiple-events::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: calc(50% + 2px); /* Adjust position for multiple dots */
+  width: 4px;
+  height: 4px;
+  background-color: red; /* Dot color */
+  border-radius: 50%;
+}
+
+
 
 
 .dropdown-trigger {

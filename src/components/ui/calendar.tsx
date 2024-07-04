@@ -5,14 +5,14 @@ import { buttonVariants } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // Assuming you have Lucide icons imported
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
-  eventDates: string[];
+  eventDates: Record<string, number>; // Change to Record to store the count of events per date
 };
 
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
-  eventDates = [],
+  eventDates = {},
   ...props
 }: CalendarProps) {
   const formatDate = (date: Date): string => {
@@ -25,14 +25,18 @@ function Calendar({
   const modifiers = {
     hasEvent: (date: Date) => {
       const formattedDate = formatDate(date);
-      return eventDates.includes(formattedDate);
+      return eventDates[formattedDate] > 0;
+    },
+    hasMultipleEvents: (date: Date) => {
+      const formattedDate = formatDate(date);
+      return eventDates[formattedDate] > 1;
     }
   };
 
   const modifiersClassNames = {
-    hasEvent: 'has-event' // Use the class defined in the global CSS
+    hasEvent: 'has-event',
+    hasMultipleEvents: 'has-multiple-events'
   };
-  
 
   return (
     <div className="w-full h-full flex justify-center items-center border-10 border-gray-300 rounded-lg">
@@ -87,5 +91,3 @@ function Calendar({
 Calendar.displayName = "Calendar";
 
 export { Calendar };
-
-

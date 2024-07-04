@@ -53,7 +53,7 @@ const getDatesInRange = (startDate: string | number | Date, endDate: string | nu
 };
 
 const CalendarDemo: React.FC = () => {
-  const [selectedTemple, setSelectedTemple] = useState<number | null>(null); // Default to null
+  const [selectedTemple, setSelectedTemple] = useState<number | null>(null);
   const [temples, setTemples] = useState<Temple[]>([]);
   const [selectedDateRange, setSelectedDateRange] = useState<{ from: Date | undefined; to: Date | undefined }>({ from: undefined, to: undefined });
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -64,16 +64,14 @@ const CalendarDemo: React.FC = () => {
   const [updateEventId, setUpdateEventId] = useState<number | null>(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [deleteEventId, setDeleteEventId] = useState<number | null>(null);
-  const [actionType, setActionType] = useState<'delete' | 'edit' | null>(null); // Track action type for AlertDialog
-
-
+  const [actionType, setActionType] = useState<'delete' | 'edit' | null>(null);
 
   useEffect(() => {
     const fetchTemples = async () => {
       try {
         const response = await axios.get<Temple[]>('http://localhost:3000/api/getTemples');
         setTemples(response.data);
-        setSelectedTemple(response.data[0]?.id ?? null); // Set default temple to the first one in the list if available
+        setSelectedTemple(response.data[0]?.id ?? null);
       } catch (error) {
         console.error('There was an error fetching the temples!', error);
       }
@@ -105,7 +103,6 @@ const CalendarDemo: React.FC = () => {
   const formattingDate = (dateString: string): Date => {
     return new Date(dateString);
   };
-
 
   const handleDateRangeChange = (range: { from: Date | undefined; to: Date | undefined }) => {
     setSelectedDateRange(range);
@@ -185,15 +182,23 @@ const CalendarDemo: React.FC = () => {
     setShowDeleteConfirmation(false);
   };
 
-  // Generate the array of all event dates
-  const allEventDates = events.flatMap(event => {
+  // Generate the array of all event dates with counts
+  const allEventDates = events.reduce((acc, event) => {
     const startDate = new Date(event.event_date);
     const endDate = new Date(event.to_date);
-    return getDatesInRange(startDate, endDate);
-  });
+    const dates = getDatesInRange(startDate, endDate);
 
-  // Format the dates
-  const formattedEventDates = allEventDates.map(date => formatDate(date));
+    dates.forEach(date => {
+      const formattedDate = formatDate(date);
+      if (acc[formattedDate]) {
+        acc[formattedDate]++;
+      } else {
+        acc[formattedDate] = 1;
+      }
+    });
+
+    return acc;
+  }, {} as Record<string, number>);
 
   const handleEditClick = (event: Event) => {
     setUpdateEventId(event.id);
@@ -208,7 +213,6 @@ const CalendarDemo: React.FC = () => {
     setShowDeleteConfirmation(true);
   };
 
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="max-w-3xl w-full p-4 bg-white shadow-lg rounded-lg flex flex-col md:flex-row">
@@ -219,7 +223,6 @@ const CalendarDemo: React.FC = () => {
               <DropdownMenuTrigger>
                 {selectedTemple ? temples.find(temp => temp.id === selectedTemple)?.name : 'Select Temple'}
               </DropdownMenuTrigger>
-
               <DropdownMenuContent>
                 {temples.map(temple => (
                   <DropdownMenuItem key={temple.id} onClick={() => setSelectedTemple(temple.id)}>
@@ -235,7 +238,7 @@ const CalendarDemo: React.FC = () => {
               onSelect={handleDateSelect}
               fromYear={2020}
               toYear={2030}
-              eventDates={formattedEventDates}
+              eventDates={allEventDates}
             />
           </div>
         </div>
@@ -327,5 +330,3 @@ const CalendarDemo: React.FC = () => {
 };
 
 export default CalendarDemo;
-
-
