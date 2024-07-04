@@ -146,3 +146,15 @@
 .dropdown-item:hover {
   background-color: #f1f1f1;
 }
+
+
+/* global.css */
+.toast-success {
+  background-color: #4caf50; /* Green background */
+  color: white;
+}
+
+.toast-error {
+  background-color: #f44336; /* Red background */
+  color: white;
+}

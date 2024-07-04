@@ -22,11 +22,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt, faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useToast } from '@/components/ui/use-toast';
+import { Toaster } from '@/components/ui/toaster';
 import "./styles.css";
-import { format } from 'date-fns';
-import { ChevronDownIcon } from 'lucide-react';
 
 interface Event {
   id: number;
@@ -65,6 +63,7 @@ const CalendarDemo: React.FC = () => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [deleteEventId, setDeleteEventId] = useState<number | null>(null);
   const [actionType, setActionType] = useState<'delete' | 'edit' | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchTemples = async () => {
@@ -135,7 +134,11 @@ const CalendarDemo: React.FC = () => {
             endDate: formatDate(selectedDateRange.to),
             name: eventName,
           });
-          toast.success('Event updated successfully!');
+          toast({
+            title: 'Updated!!',
+            description: 'Event updated successfully!',
+            className: 'toast-success',
+          });
           setUpdateEventId(null);
         } else {
           // Add event
@@ -145,7 +148,11 @@ const CalendarDemo: React.FC = () => {
             endDate: formatDate(selectedDateRange.to),
             name: eventName,
           });
-          toast.success('Event added successfully!');
+          toast({
+            title: 'Success',
+            description: 'Event added successfully!',
+            className: 'toast-success',
+          });
         }
         setEventName('');
         setSelectedDateRange({ from: undefined, to: undefined });
@@ -153,7 +160,11 @@ const CalendarDemo: React.FC = () => {
         setEvents(response.data);
       } catch (error) {
         console.error('There was an error adding/updating the event!', error);
-        toast.error('There was an error adding/updating the event!');
+        toast({
+          title: 'Error',
+          description: 'There was an error adding/updating the event!',
+          className: 'toast-error',
+        });
       }
     }
   };
@@ -171,12 +182,20 @@ const CalendarDemo: React.FC = () => {
         await axios.delete('http://localhost:3000/api/deleteEvent', {
           data: { eventId: deleteEventId },
         });
-        toast.success('Event deleted successfully!');
+        toast({
+          title: 'Deleted',
+          description: 'Event deleted successfully!',
+          className: 'toast-success',
+        });
         const response = await axios.get<Event[]>(`http://localhost:3000/api/getEvents?templeId=${selectedTemple}`);
         setEvents(response.data);
       } catch (error) {
         console.error('There was an error deleting the event!', error);
-        toast.error('There was an error deleting the event!');
+        toast({
+          title: 'Error',
+          description: 'There was an error deleting the event!',
+          className: 'toast-error',
+        });
       }
     }
     setShowDeleteConfirmation(false);
@@ -309,7 +328,7 @@ const CalendarDemo: React.FC = () => {
           )}
         </div>
       </div>
-      <ToastContainer />
+      <Toaster />
       <AlertDialog open={showDeleteConfirmation}>
         <AlertDialogContent>
           <AlertDialogHeader>
