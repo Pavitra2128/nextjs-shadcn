@@ -4,6 +4,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DatePickerWithRange } from '@/components/ui/DatePickerWithRange';
 import { Calendar } from '@/components/ui/calendar';
+import { Edit, Trash2, ChevronDown } from 'react-feather';
+
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -302,20 +305,21 @@ const CalendarDemo: React.FC = () => {
                           <span>{event.event_name} ({event.event_days} days) - {formattingDate(event.event_date).toDateString()} to {formattingDate(event.to_date).toDateString()}</span>
                           <div className="flex space-x-2">
                             <Button
-                              variant="secondary"
+                              variant="primary"
                               size="sm"
                               onClick={() => handleEditClick(event)}
                               className="text-blue-500"
                             >
-                              <FontAwesomeIcon icon={faPencilAlt} />
+                              <Edit color="blue" size={15} />
+                             
                             </Button>
                             <Button
-                              variant="secondary"
+                              variant="primary"
                               size="sm"
                               onClick={() => handleDeleteClick(event.id)}
                               className="text-red-500"
                             >
-                              <FontAwesomeIcon icon={faTrash} />
+                              <Trash2 color="red" size={15}/>
                             </Button>
                           </div>
                         </li>
