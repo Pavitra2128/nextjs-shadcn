@@ -75,7 +75,6 @@
   }
 }
 
-/* Add this CSS for the event indicator */
 .has-event {
   position: relative;
 }
@@ -90,4 +89,35 @@
   height: 4px;
   background-color: red; /* ash color */
   border-radius: 50%;
+}
+
+
+.dropdown-trigger {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dropdown-icon {
+  margin-left: 8px;
+}
+
+.dropdown-content {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  width: 100%;
+}
+
+.dropdown-item {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
 }

@@ -21,10 +21,12 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faPencilAlt, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./styles.css";
+import { format } from 'date-fns';
+import { ChevronDownIcon } from 'lucide-react';
 
 interface Event {
   id: number;
@@ -64,6 +66,8 @@ const CalendarDemo: React.FC = () => {
   const [deleteEventId, setDeleteEventId] = useState<number | null>(null);
   const [actionType, setActionType] = useState<'delete' | 'edit' | null>(null); // Track action type for AlertDialog
 
+
+
   useEffect(() => {
     const fetchTemples = async () => {
       try {
@@ -97,6 +101,11 @@ const CalendarDemo: React.FC = () => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
+
+  const formattingDate = (dateString: string): Date => {
+    return new Date(dateString);
+  };
+
 
   const handleDateRangeChange = (range: { from: Date | undefined; to: Date | undefined }) => {
     setSelectedDateRange(range);
@@ -199,6 +208,7 @@ const CalendarDemo: React.FC = () => {
     setShowDeleteConfirmation(true);
   };
 
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="max-w-3xl w-full p-4 bg-white shadow-lg rounded-lg flex flex-col md:flex-row">
@@ -206,7 +216,10 @@ const CalendarDemo: React.FC = () => {
           <div className="mb-4">
             <h2 className="text-2xl mb-4 font-bold">Events</h2>
             <DropdownMenu>
-              <DropdownMenuTrigger>{selectedTemple ? temples.find(temp => temp.id === selectedTemple)?.name : 'Select Temple'}</DropdownMenuTrigger>
+              <DropdownMenuTrigger>
+                {selectedTemple ? temples.find(temp => temp.id === selectedTemple)?.name : 'Select Temple'}
+              </DropdownMenuTrigger>
+
               <DropdownMenuContent>
                 {temples.map(temple => (
                   <DropdownMenuItem key={temple.id} onClick={() => setSelectedTemple(temple.id)}>
@@ -260,31 +273,33 @@ const CalendarDemo: React.FC = () => {
               {selectedDate && (
                 <div className="bg-white p-4 rounded-md shadow-md">
                   <h2 className="text-xl mb-4">Events on {selectedDate.toDateString()}</h2>
-                  <ul>
-                    {eventsForSelectedDate.map(event => (
-                      <li key={event.id} className="mb-2 flex items-center justify-between">
-                        <span>{event.event_name} ({event.event_days} days) - {event.event_date} to {event.to_date}</span>
-                        <div className="flex space-x-2">
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() => handleEditClick(event)}
-                            className="text-blue-500"
-                          >
-                            <FontAwesomeIcon icon={faPencilAlt} />
-                          </Button>
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() => handleDeleteClick(event.id)}
-                            className="text-red-500"
-                          >
-                            <FontAwesomeIcon icon={faTrash} />
-                          </Button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="max-h-48 overflow-y-auto">
+                    <ul>
+                      {eventsForSelectedDate.map(event => (
+                        <li key={event.id} className="mb-2 flex items-center justify-between">
+                          <span>{event.event_name} ({event.event_days} days) - {formattingDate(event.event_date).toDateString()} to {formattingDate(event.to_date).toDateString()}</span>
+                          <div className="flex space-x-2">
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              onClick={() => handleEditClick(event)}
+                              className="text-blue-500"
+                            >
+                              <FontAwesomeIcon icon={faPencilAlt} />
+                            </Button>
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              onClick={() => handleDeleteClick(event.id)}
+                              className="text-red-500"
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </Button>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               )}
             </>
@@ -303,7 +318,7 @@ const CalendarDemo: React.FC = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setShowDeleteConfirmation(false)}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={actionType === 'delete' ? handleDelete : () => {}}>Continue</AlertDialogAction>
+            <AlertDialogAction onClick={actionType === 'delete' ? handleDelete : () => { }}>Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -312,3 +327,5 @@ const CalendarDemo: React.FC = () => {
 };
 
 export default CalendarDemo;
+
+

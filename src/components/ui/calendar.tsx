@@ -32,6 +32,7 @@ function Calendar({
   const modifiersClassNames = {
     hasEvent: 'has-event' // Use the class defined in the global CSS
   };
+  
 
   return (
     <div className="w-full h-full flex justify-center items-center border-10 border-gray-300 rounded-lg">
@@ -86,3 +87,5 @@ function Calendar({
 Calendar.displayName = "Calendar";
 
 export { Calendar };
+
+
