@@ -120,6 +120,7 @@ const CalendarDemo: React.FC = () => {
       setSelectedDate(date);
       setEventsForSelectedDate(eventsForDate);
       setSelectedDateRange({ from: date || undefined, to: date || undefined });
+      setUpdateEventId(null); 
       setShowForm(true);
     }
   };
