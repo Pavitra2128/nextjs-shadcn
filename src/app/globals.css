@@ -149,9 +149,8 @@
 }
 
 
-/* global.css */
 .toast-success {
-  background-color: black; /* Green background */
+  background-color: black; /* Black background */
   color: white;
 }
 

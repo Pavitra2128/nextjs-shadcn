@@ -46,15 +46,15 @@ function Calendar({
         classNames={{
           months: "grid grid-cols-20 gap-2",
           month: "",
-          caption: "flex justify-center pt-2 relative items-center",
-          caption_label: "text-lg font-medium text-gray-800",
-          nav: "flex justify-between items-center mb-4",
+          caption: "flex justify-between pt-2 relative items-center",
+          caption_label: "text-lg font-medium text-gray-800 text-center absolute left-1/2 transform -translate-x-1/2",
+          nav: "flex justify-between items-center w-full",
           nav_button: cn(
             buttonVariants({ variant: "outline" }),
             "h-8 w-8 bg-transparent p-0 opacity-50 hover:opacity-100"
           ),
-          nav_button_previous: "ml-2",
-          nav_button_next: "mr-2",
+          nav_button_previous: "order-first",
+          nav_button_next: "order-last",
           table: "w-full border-collapse",
           head_row: "grid grid-cols-7 gap-8 mb-2",
           head_cell:

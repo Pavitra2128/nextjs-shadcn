@@ -223,6 +223,10 @@ const CalendarDemo: React.FC = () => {
     return acc;
   }, {} as Record<string, number>);
 
+  const handleCloseForm = () => {
+    setShowForm(false);
+  };
+
   const handleEditClick = (event: Event) => {
     setUpdateEventId(event.id);
     setEventName(event.event_name);
@@ -241,15 +245,19 @@ const CalendarDemo: React.FC = () => {
       <div className="max-w-3xl w-full p-4 bg-white shadow-lg rounded-lg flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 pr-4 mb-4 md:mb-0">
           <div className="mb-4">
-            <h2 className="text-2xl mb-4 font-bold">Events</h2>
+            <h2 className="text-xl mb-2">Select a Temple:</h2>
             <DropdownMenu>
-              <DropdownMenuTrigger>
-                <div className="flex items-center">
-                  {selectedTemple ? temples.find(temp => temp.id === selectedTemple)?.name : 'Select Temple'}
-                  <ChevronDown className="ml-1 w-4 h-4" />
-                </div>
+              <DropdownMenuTrigger className="bg-white border border-gray-300 p-2 rounded flex justify-between items-center w-auto">
+                {selectedTemple !== null ? (
+                  <>
+                    {temples.find(temple => temple.id === selectedTemple)?.name}
+                    <ChevronDown className="ml-2" />
+                  </>
+                ) : (
+                  <span>Select Temple</span>
+                )}
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="bg-white shadow-md rounded mt-2 w-full">
                 {temples.map(temple => (
                   <DropdownMenuItem key={temple.id} onClick={() => setSelectedTemple(temple.id)}>
                     {temple.name}
@@ -272,6 +280,24 @@ const CalendarDemo: React.FC = () => {
           {showForm && (
             <>
               <div className="bg-white p-4 rounded-md shadow-md mb-4">
+                <div className="flex justify-end mb-2">
+                  <button
+                    className="text-gray-600 hover:text-gray-800 focus:outline-none"
+                    onClick={handleCloseForm}
+                  >
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </button>
+                </div>
                 <h2 className="text-xl mb-4">{updateEventId ? 'Update Event' : 'Add Event'}</h2>
                 <form onSubmit={handleSubmit}>
                   <div className="mb-4">
@@ -299,39 +325,40 @@ const CalendarDemo: React.FC = () => {
                   </Button>
                 </form>
               </div>
-              {selectedDate && (
-                <div className="bg-white p-4 rounded-md shadow-md">
-                  <h2 className="text-xl mb-4">Events on {selectedDate.toDateString()}</h2>
-                  <div className="max-h-48 overflow-y-auto">
-                    <ul>
-                      {eventsForSelectedDate.map(event => (
-                        <li key={event.id} className="mb-2 flex items-center justify-between">
-                          <span>{event.event_name} ({event.event_days} days) - {formattingDate(event.event_date).toDateString()} to {formattingDate(event.to_date).toDateString()}</span>
-                          <div className="flex space-x-2">
-                            <Button
-                              variant="primary"
-                              size="sm"
-                              onClick={() => handleEditClick(event)}
-                              className="text-blue-500"
-                            >
-                              <Edit color="blue" size={15} />
-
-                            </Button>
-                            <Button
-                              variant="primary"
-                              size="sm"
-                              onClick={() => handleDeleteClick(event.id)}
-                              className="text-red-500"
-                            >
-                              <Trash2 color="red" size={15} />
-                            </Button>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+            </>
+          )}
+          {selectedDate && (
+            <>
+              <div className="bg-white p-4 rounded-md shadow-md max-h-96 overflow-y-auto">
+                <h2 className="text-xl mb-4">Events on {selectedDate.toDateString()}</h2>
+                <div className="max-h-48 overflow-y-auto">
+                  <ul>
+                    {eventsForSelectedDate.map(event => (
+                      <li key={event.id} className="mb-2 flex items-center justify-between">
+                        <span>{event.event_name} ({event.event_days} days) - {formattingDate(event.event_date).toDateString()} to {formattingDate(event.to_date).toDateString()}</span>
+                        <div className="flex space-x-2">
+                          <Button
+                            variant="primary"
+                            size="sm"
+                            onClick={() => handleEditClick(event)}
+                            className="text-blue-500"
+                          >
+                            <Edit color="blue" size={15} />
+                          </Button>
+                          <Button
+                            variant="primary"
+                            size="sm"
+                            onClick={() => handleDeleteClick(event.id)}
+                            className="text-red-500"
+                          >
+                            <Trash2 color="red" size={15} />
+                          </Button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              )}
+              </div>
             </>
           )}
         </div>
@@ -347,8 +374,12 @@ const CalendarDemo: React.FC = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setShowDeleteConfirmation(false)}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={actionType === 'delete' ? handleDelete : () => { }}>Continue</AlertDialogAction>
+            <AlertDialogCancel onClick={() => setShowDeleteConfirmation(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={actionType === 'delete' ? handleDelete : () => { }}>
+              Continue
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
