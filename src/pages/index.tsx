@@ -332,31 +332,35 @@ const CalendarDemo: React.FC = () => {
               <div className="bg-white p-4 rounded-md shadow-md max-h-96 overflow-y-auto">
                 <h2 className="text-xl mb-4">Events on {selectedDate.toDateString()}</h2>
                 <div className="max-h-48 overflow-y-auto">
-                  <ul>
-                    {eventsForSelectedDate.map(event => (
-                      <li key={event.id} className="mb-2 flex items-center justify-between">
-                        <span>{event.event_name} ({event.event_days} days) - {formattingDate(event.event_date).toDateString()} to {formattingDate(event.to_date).toDateString()}</span>
-                        <div className="flex space-x-2">
-                          <Button
-                            variant="primary"
-                            size="sm"
-                            onClick={() => handleEditClick(event)}
-                            className="text-blue-500"
-                          >
-                            <Edit color="blue" size={15} />
-                          </Button>
-                          <Button
-                            variant="primary"
-                            size="sm"
-                            onClick={() => handleDeleteClick(event.id)}
-                            className="text-red-500"
-                          >
-                            <Trash2 color="red" size={15} />
-                          </Button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
+                {eventsForSelectedDate.length === 0 ? (
+                    <p>No events</p>
+                  ) : (
+                    <ul>
+                      {eventsForSelectedDate.map(event => (
+                        <li key={event.id} className="mb-2 flex items-center justify-between">
+                          <span>{event.event_name} ({event.event_days} days) - {formattingDate(event.event_date).toDateString()} to {formattingDate(event.to_date).toDateString()}</span>
+                          <div className="flex space-x-2">
+                            <Button
+                              variant="primary"
+                              size="sm"
+                              onClick={() => handleEditClick(event)}
+                              className="text-blue-500"
+                            >
+                              <Edit color="blue" size={15} />
+                            </Button>
+                            <Button
+                              variant="primary"
+                              size="sm"
+                              onClick={() => handleDeleteClick(event.id)}
+                              className="text-red-500"
+                            >
+                              <Trash2 color="red" size={15} />
+                            </Button>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
             </>
