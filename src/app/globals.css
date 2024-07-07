@@ -158,3 +158,28 @@
   background-color: #f44336; /* Red background */
   color: white;
 }
+
+/* globals.css */
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.bg-maroon {
+  background-color: #800000; /* Maroon color */
+}
+
+.text-maroon {
+  color: #800000; /* Maroon color */
+}
+/* Add this to your global.css */
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@700&display=swap');
+
+.font-hindi {
+  font-family: 'Hind Siliguri', sans-serif;
+}
