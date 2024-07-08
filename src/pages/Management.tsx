@@ -1,4 +1,4 @@
-import { Card, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, User } from 'react-feather';
 
@@ -60,9 +60,9 @@ const Managements: React.FC = () => {
           </div>
           <div className="w-2/3 pl-8">
             <CardTitle>{slides[currentSlide].name}</CardTitle>
-            <CardDescription>
+              <CardContent>
               <p style={{ marginTop: '1.5rem' }}>{slides[currentSlide].content}</p>
-            </CardDescription>
+              </CardContent>
           </div>
         </div>
       </Card>

@@ -5,40 +5,40 @@ import Navbar from './NavBar';
 import About from './about';
 
 const Home: React.FC = () => {
-  const homeRef = useRef(null);
-  const aboutRef = useRef(null);
-  const managementsRef = useRef(null);
-  const galleryRef = useRef(null);
-  const newsRef = useRef(null);
-  const ourTemplesRef = useRef(null);
-  const donationsRef = useRef(null);
-  const contactsRef = useRef(null);
+  const homeRef = useRef<HTMLElement>(null);
+  const aboutRef = useRef<HTMLElement>(null);
+  const managementsRef = useRef<HTMLElement>(null);
+  const galleryRef = useRef<HTMLElement>(null);
+  const newsRef = useRef<HTMLElement>(null);
+  const ourTemplesRef = useRef<HTMLElement>(null);
+  const donationsRef = useRef<HTMLElement>(null);
+  const contactsRef = useRef<HTMLElement>(null);
 
-  const scrollToSection = (section) => {
+  const scrollToSection = (section: any) => {
     switch (section) {
       case 'home':
-        homeRef.current.scrollIntoView({ behavior: 'smooth' });
+        homeRef.current?.scrollIntoView({ behavior: 'smooth' });
         break;
       case 'about':
-        aboutRef.current.scrollIntoView({ behavior: 'smooth' });
+        aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
         break;
         case 'managements':
-          managementsRef.current.scrollIntoView({ behavior: 'smooth' });
+          managementsRef.current?.scrollIntoView({ behavior: 'smooth' });
         break;
       case 'gallery':
-        galleryRef.current.scrollIntoView({ behavior: 'smooth' });
+        galleryRef.current?.scrollIntoView({ behavior: 'smooth' });
         break;
       case 'news':
-        newsRef.current.scrollIntoView({ behavior: 'smooth' });
+        newsRef.current?.scrollIntoView({ behavior: 'smooth' });
         break;
       case 'ourtemples':
-        ourTemplesRef.current.scrollIntoView({ behavior: 'smooth' });
+        ourTemplesRef.current?.scrollIntoView({ behavior: 'smooth' });
         break;
       case 'donations':
-        donationsRef.current.scrollIntoView({ behavior: 'smooth' });
+        donationsRef.current?.scrollIntoView({ behavior: 'smooth' });
         break;
       case 'contacts':
-        contactsRef.current.scrollIntoView({ behavior: 'smooth' });
+        contactsRef.current?.scrollIntoView({ behavior: 'smooth' });
         break;
       default:
         break;
