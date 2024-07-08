@@ -96,7 +96,7 @@ const Navbar = ({ scrollToSection }) => {
         om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh
       </div>
       <div className="w-full">
-        <img src="/hdtemple.jpg" alt="temple" className="w-full h-[80vh] object-cover object-center" />
+        <img src="/hdtemple.jpg" alt="temple" className="w-full h-[140vh] object-cover object-center" />
         <div className="absolute right-0 top-1/2 transform -translate-y-1/2">
           <Button className="bg-maroon text-white hover:bg-maroon-dark">
             Donate Now
