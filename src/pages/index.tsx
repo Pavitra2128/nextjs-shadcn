@@ -73,9 +73,8 @@ const Home: React.FC = () => {
 
   return (
     <div className="overflow-y-auto">
-      
       <section ref={homeRef} className="relative min-h-screen mb-20">
-      <Navbar scrollToSection={scrollToSection}  />
+        <Navbar scrollToSection={scrollToSection} />
         {renderUpArrowButton('home')}
       </section>
       <section ref={aboutRef} className="relative min-h-screen">

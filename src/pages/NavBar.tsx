@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -10,6 +11,7 @@ import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 
 const Navbar = ({ scrollToSection }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -26,6 +28,17 @@ const Navbar = ({ scrollToSection }) => {
     { label: 'Contacts', section: 'contacts' },
   ];
 
+  const handleLinkClick = (link) => {
+    if (link.external) {
+      router.push(link.section);
+    } else {
+      scrollToSection(link.section);
+      if (isMobileMenuOpen) {
+        toggleMobileMenu();
+      }
+    }
+  };
+
   const renderLinks = (isMobile = false) => (
     <NavigationMenuList className={isMobile ? 'flex flex-col space-y-2' : 'flex space-x-6'}>
       {navigationLinks.map((link) => (
@@ -33,14 +46,7 @@ const Navbar = ({ scrollToSection }) => {
           <NavigationMenuLink asChild>
             <a
               href="#"
-              onClick={() => {
-                if (!link.external) {
-                  scrollToSection(link.section);
-                }
-                if (isMobile) {
-                  toggleMobileMenu();
-                }
-              }}
+              onClick={() => handleLinkClick(link)}
               className="text-maroon hover:text-white hover:bg-maroon px-4 py-3 rounded text-lg font-bold transition-colors duration-300"
             >
               {link.label}
