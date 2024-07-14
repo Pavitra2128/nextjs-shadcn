@@ -6,8 +6,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
-import { Button } from "@/components/ui/button";
-import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import { ChevronUpIcon, ChevronDownIcon } from 'lucide-react';
 
 const Navbar = ({ scrollToSection }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -44,13 +43,12 @@ const Navbar = ({ scrollToSection }) => {
       {navigationLinks.map((link) => (
         <NavigationMenuItem key={link.section}>
           <NavigationMenuLink asChild>
-            <a
-              href="#"
+            <button
               onClick={() => handleLinkClick(link)}
-              className="text-maroon hover:text-white hover:bg-maroon px-4 py-3 rounded text-lg font-bold transition-colors duration-300"
+              className="text-maroon hover:text-white hover:bg-maroon px-4 py-3 rounded text-lg font-bold transition-colors duration-300 w-full text-left"
             >
               {link.label}
-            </a>
+            </button>
           </NavigationMenuLink>
         </NavigationMenuItem>
       ))}
@@ -58,42 +56,28 @@ const Navbar = ({ scrollToSection }) => {
   );
 
   return (
-    <>
-      <nav className="flex items-center justify-between p-4 bg-white shadow-md relative">
-        <div className="flex items-center space-x-4">
-          <img src="/logo.jpg" alt="Logo" className="h-20 w-20" />
-          <div className="text-maroon text-3xl font-hindi font-bold">सारसबाग गणपति</div>
-        </div>
+    <nav className="flex items-center justify-between p-4 bg-white shadow-md relative">
+      <div className="flex items-center space-x-4">
+        <img src="/logo.jpg" alt="Logo" className="h-16 md:h-20 w-16 md:w-20" />
+        <div className="text-maroon text-xl md:text-3xl font-hindi font-bold">सारसबाग गणपति</div>
+      </div>
 
-        <button className="lg:hidden text-gray-600 focus:outline-none" onClick={toggleMobileMenu}>
-          {isMobileMenuOpen ? <ChevronUpIcon size={24} /> : <ChevronDownIcon size={24} />}
-        </button>
+      <button className="lg:hidden text-gray-600 focus:outline-none" onClick={toggleMobileMenu}>
+        {isMobileMenuOpen ? <ChevronUpIcon size={24} /> : <ChevronDownIcon size={24} />}
+      </button>
 
-        <NavigationMenu className="hidden lg:flex justify-center">
-          {renderLinks()}
+      {/* Mobile Menu */}
+      <div className={`lg:hidden absolute top-full left-0 right-0 bg-white shadow-md z-10 ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
+        <NavigationMenu>
+          {renderLinks(true)}
         </NavigationMenu>
-      </nav>
-
-      {isMobileMenuOpen && (
-        <div className="lg:hidden p-4 bg-white shadow-md">
-          <NavigationMenu>
-            {renderLinks(true)}
-          </NavigationMenu>
-        </div>
-      )}
-
-      <div>
-        om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh
       </div>
-      <div className="w-full relative">
-        <img src="/hdtemple.jpg" alt="temple" className="w-full h-[140vh] object-cover object-center" />
-        <div className="absolute right-0 top-1/2 transform -translate-y-1/2">
-          <Button className="bg-maroon text-white hover:bg-maroon-dark">
-            Donate Now
-          </Button>
-        </div>
-      </div>
-    </>
+
+      {/* Desktop Menu */}
+      <NavigationMenu className="hidden lg:flex justify-center">
+        {renderLinks()}
+      </NavigationMenu>
+    </nav>
   );
 };
 
