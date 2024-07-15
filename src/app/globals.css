@@ -183,6 +183,13 @@ body {
 .font-hindi {
   font-family: 'Hind Siliguri', sans-serif;
 }
+/* global.css */
+.navbar-photo {
+  width: 100%;
+  height: auto;
+  max-width: 150px; /* adjust as needed */
+  object-fit: cover;
+}
 /* Add this to your global CSS file */
 @keyframes marquee {
   0% { transform: translateX(0); }
