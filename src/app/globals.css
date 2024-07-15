@@ -183,3 +183,23 @@ body {
 .font-hindi {
   font-family: 'Hind Siliguri', sans-serif;
 }
+/* Add this to your global CSS file */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+.marquee {
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  background-color: maroon; /* Maroon background */
+  color: white; /* White text */
+}
+
+.marquee span {
+  display: inline-block;
+  animation: marquee 30s linear infinite;
+  padding-left: 100%; /* Start the text with padding */
+  padding-right: 100%; /* End the text with padding */
+}
