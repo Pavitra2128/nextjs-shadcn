@@ -1,13 +1,8 @@
-import React, { useState } from 'react';
-import {
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuLink,
-} from "@/components/ui/navigation-menu";
-import { Button } from "@/components/ui/button";
-import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+// Navbar.tsx
 
+import React, { useState } from 'react';
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
+import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import { useRouter } from 'next/router';
 
 const Navbar = ({ scrollToSection }) => {
@@ -23,8 +18,8 @@ const Navbar = ({ scrollToSection }) => {
     { label: 'About us', section: 'about' },
     { label: 'Managements', section: 'managements' },
     { label: 'Gallery', section: 'gallery' },
-    { label: 'News & Events', section: '/CalendarDemo', external: true },
-    { label: 'Our Temples', section: 'ourtemples' },
+    { label: 'News & Events', section: '/NewsAndEvents', external: true },
+    { label: 'Our Temples', section: '/Temples', external: false }, // Ensure this points to /Temples
     { label: 'Donations', section: 'donations' },
     { label: 'Contacts', section: 'contacts' },
   ];
@@ -37,13 +32,12 @@ const Navbar = ({ scrollToSection }) => {
             <NavigationMenuLink asChild>
               <a
                 href="#"
-                onClick={() => {
-                  if (link.label === 'News & Events') {
-                    router.push(link.section);
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent default anchor tag behavior
+                  if (link.external) {
+                    window.location.href = link.section; // External link behavior
                   } else {
-                    if (!link.external) {
-                      scrollToSection(link.section);
-                    }
+                    router.push(link.section); // Internal link behavior
                     if (isMobile) {
                       toggleMobileMenu();
                     }
@@ -89,15 +83,6 @@ const Navbar = ({ scrollToSection }) => {
         <span>
           om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh * om sri ganesh
         </span>
-      </div>
-
-      <div className="w-full relative overflow-hidden h-screen">
-        <img src="/hdtemple.jpg" alt="temple" className="w-full h-full object-cover object-center" />
-        <div className="absolute right-0 top-1/2 transform -translate-y-1/2">
-          <Button className="bg-maroon text-white hover:bg-maroon-dark">
-            Donate Now
-          </Button>
-        </div>
       </div>
     </>
   );
