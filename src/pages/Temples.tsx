@@ -10,7 +10,7 @@ import Container from '../../public/Container.jpg'; // Assuming Container.jpg is
 const Temples: React.FC = () => {
     return (
         <div className="min-h-screen flex flex-col">
-            <Navbar />
+            {/* <Navbar /> */}
             <div className="relative w-full h-[600px] sm:h-[600px] lg:h-[900px]">
                 <div className="relative w-full h-full overflow-hidden" style={{ clipPath: 'url(#curveClipPath)' }}>
                     <Image
@@ -43,7 +43,7 @@ const Temples: React.FC = () => {
                 </div>
             </div>
             <div className='mt-8'>
-            <FooterSection />
+            {/* <FooterSection /> */}
             </div>
             
         </div>

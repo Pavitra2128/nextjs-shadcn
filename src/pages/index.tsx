@@ -6,6 +6,7 @@ import About from './about';
 import HomePage from './HomePagr'; // Assuming this is a typo, should be 'HomePage'
 import { ChevronUpIcon } from 'lucide-react';
 import FooterSection from './FooterSection';
+//import Layout from './Layout';
 
 const Home: React.FC = () => {
   const homeRef = useRef<HTMLElement>(null);
@@ -75,9 +76,9 @@ const Home: React.FC = () => {
 
   return (
     <div className="overflow-y-auto relative min-h-screen">
-      <Navbar scrollToSection={scrollToSection} />
+      {/* <Navbar scrollToSection={scrollToSection} /> */}
       <HomePage />
-      <section ref={aboutRef} className="relative min-h-screen">
+      {/* <section ref={aboutRef} className="relative min-h-screen">
         <About />
         {renderUpArrowButton('about')}
       </section>
@@ -91,7 +92,7 @@ const Home: React.FC = () => {
       </section>
       <section>
         <FooterSection />
-      </section>
+      </section> */}
     </div>
   );
 };

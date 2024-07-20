@@ -8,7 +8,7 @@ import GreenGod from '../../public/GreenGod.png';
 const NewsAndEvents: React.FC = () => {
     return (
         <div className="min-h-screen flex flex-col">
-            <Navbar />
+            {/* <Navbar /> */}
             <div className="relative w-full h-[900px] sm:h-[600px] lg:h-[900px]">
                 <div className="relative w-full h-full ml-8 overflow-hidden rounded-lg">
                     <Image
@@ -26,7 +26,7 @@ const NewsAndEvents: React.FC = () => {
             <div className="mt-8 px-4">
                 <CalendarDemo />
             </div>
-            <FooterSection />
+            {/* <FooterSection /> */}
         </div>
     );
 };

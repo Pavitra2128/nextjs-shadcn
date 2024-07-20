@@ -14,10 +14,10 @@ const Navbar = ({ scrollToSection }) => {
   };
 
   const navigationLinks = [
-    { label: 'Home', section: 'home' },
+    { label: 'Home', section: '/' },
     { label: 'About us', section: 'about' },
-    { label: 'Managements', section: 'managements' },
-    { label: 'Gallery', section: 'gallery' },
+    { label: 'Managements', section: 'Management' },
+    { label: 'Gallery', section: 'Gallery' },
     { label: 'News & Events', section: '/NewsAndEvents', external: true },
     { label: 'Our Temples', section: '/Temples', external: false }, // Ensure this points to /Temples
     { label: 'Donations', section: 'donations' },
