@@ -1,9 +1,9 @@
 // Navbar.tsx
-
 import React, { useState } from 'react';
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import { useRouter } from 'next/router';
+import Link from 'next/link'; // Import next/link for navigation
 
 const Navbar = ({ scrollToSection }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -15,13 +15,13 @@ const Navbar = ({ scrollToSection }) => {
 
   const navigationLinks = [
     { label: 'Home', section: '/' },
-    { label: 'About us', section: 'about' },
-    { label: 'Managements', section: 'Management' },
-    { label: 'Gallery', section: 'Gallery' },
-    { label: 'News & Events', section: '/NewsAndEvents', external: true },
-    { label: 'Our Temples', section: '/Temples', external: false }, // Ensure this points to /Temples
-    { label: 'Donations', section: 'donations' },
-    { label: 'Contacts', section: 'contacts' },
+    { label: 'About us', section: '/about' },
+    { label: 'Managements', section: '/managements' },
+    { label: 'Gallery', section: '/gallery' },
+    { label: 'News & Events', section: '/news-and-events', external: true },
+    { label: 'Our Temples', section: '/temples' },
+    { label: 'Donations', section: '/donations' },
+    { label: 'Contacts', section: '/contact-us' }, // Adjust section for contact page
   ];
 
   const renderLinks = (isMobile = false) => (
@@ -30,23 +30,11 @@ const Navbar = ({ scrollToSection }) => {
         {navigationLinks.map((link) => (
           <NavigationMenuItem key={link.section}>
             <NavigationMenuLink asChild>
-              <a
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault(); // Prevent default anchor tag behavior
-                  if (link.external) {
-                    window.location.href = link.section; // External link behavior
-                  } else {
-                    router.push(link.section); // Internal link behavior
-                    if (isMobile) {
-                      toggleMobileMenu();
-                    }
-                  }
-                }}
-                className="text-maroon hover:text-white hover:bg-maroon px-4 py-3 rounded text-lg font-bold transition-colors duration-300"
-              >
-                {link.label}
-              </a>
+              <Link href={link.section} passHref>
+                <div className="text-maroon hover:text-white hover:bg-maroon px-4 py-3 rounded text-lg font-bold transition-colors duration-300">
+                  {link.label}
+                </div>
+              </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
         ))}

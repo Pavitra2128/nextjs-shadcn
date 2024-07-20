@@ -6,7 +6,6 @@ import GreenGod from '../../public/GreenGod.png';
 import Link from '../../public/Link.jpg'; // Assuming Link.jpg is an image
 import Link2 from '../../public/Link2.jpg'; 
 import Container from '../../public/Container.jpg'; // Assuming Container.jpg is an image
-
 const Temples: React.FC = () => {
     return (
         <div className="min-h-screen flex flex-col">
