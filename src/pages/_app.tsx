@@ -7,13 +7,9 @@ import FooterSection from './FooterSection';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <header>
-        <Navbar />
-      </header>
+      <Navbar />
       <Component {...pageProps} />
-      <footer>
-        <FooterSection />
-      </footer>
+      <FooterSection />
     </>
   );
 }

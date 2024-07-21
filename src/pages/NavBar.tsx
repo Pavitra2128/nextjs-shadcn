@@ -5,7 +5,7 @@ import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import { useRouter } from 'next/router';
 import Link from 'next/link'; // Import next/link for navigation
 
-const Navbar = ({ scrollToSection }) => {
+const Navbar = ({}) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const router = useRouter();
 
@@ -16,12 +16,12 @@ const Navbar = ({ scrollToSection }) => {
   const navigationLinks = [
     { label: 'Home', section: '/' },
     { label: 'About us', section: '/about' },
-    { label: 'Managements', section: '/managements' },
-    { label: 'Gallery', section: '/gallery' },
-    { label: 'News & Events', section: '/news-and-events', external: true },
-    { label: 'Our Temples', section: '/temples' },
+    { label: 'Managements', section: '/Managements' },
+    { label: 'Gallery', section: '/Gallery' },
+    { label: 'News & Events', section: '/NewsAndEvents', external: true },
+    { label: 'Our Temples', section: '/Temples' },
     { label: 'Donations', section: '/donations' },
-    { label: 'Contacts', section: '/contact-us' }, // Adjust section for contact page
+    { label: 'Contacts', section: '/contact-us' }, 
   ];
 
   const renderLinks = (isMobile = false) => (

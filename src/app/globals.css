@@ -117,7 +117,6 @@
 
 
 
-
 .dropdown-trigger {
   display: flex;
   align-items: center;
@@ -177,8 +176,7 @@ body {
 .text-maroon {
   color: #800000; /* Maroon color */
 }
-/* Add this to your global.css */
-@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@700&display=swap'); */
 
 .font-hindi {
   font-family: 'Hind Siliguri', sans-serif;
@@ -210,9 +208,7 @@ body {
   padding-left: 100%; /* Start the text with padding */
   padding-right: 100%; /* End the text with padding */
 }
-/* globals.css */
 
-/* Example custom styles */
 .bg-maroon {
   background-color: #800000; /* Adjust to your desired color */
 }

@@ -1,10 +1,7 @@
+// HomePage.tsx
 import React from 'react';
-import Image from 'next/image';
-import hdtemple from '../../public/hdtemple.jpg';
 import { Button } from '@/components/ui/button';
-import About from './about';
-import Managements from './Management';
-import Gallery from './Gallery';
+
 const HomePage: React.FC = () => {
   return (
     <div>
@@ -16,16 +13,8 @@ const HomePage: React.FC = () => {
           </Button>
         </div>
       </div>
-      <div>
-        <About />
-      </div>
-      <div>
-        <Managements/>
-      </div>
-      <div>
-        <Gallery/>
-      </div>
     </div>
   );
 };
+
 export default HomePage;
