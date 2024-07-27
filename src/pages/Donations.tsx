@@ -4,7 +4,7 @@ import GreenGod from '../../public/GreenGod.png';
 import Link from '../../public/Link.jpg'; // Assuming Link.jpg is an image
 import Link2 from '../../public/Link2.jpg';
 import Container from '../../public/Container.jpg'; // Assuming Container.jpg is an image
-const Donations: React.FC = () => {
+const donations: React.FC = () => {
     return (
         <div className="min-h-screen flex flex-col">
             <div className="relative w-full h-[600px] sm:h-[600px] lg:h-[900px]">
@@ -31,4 +31,4 @@ const Donations: React.FC = () => {
     );
 };
 
-export default Donations;
+export default donations;

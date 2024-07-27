@@ -68,8 +68,8 @@ const Navbar = () => {
     { label: 'Gallery', section: '/Gallery' },
     { label: 'News & Events', section: '/NewsAndEvents', external: true },
     { label: 'Our Temples', section: '/Temples' },
-    { label: 'Donations', section: '/donations' },
-    { label: 'Contacts', section: '/contact-us' }, 
+    { label: 'Donations', section: '/donations' }, // This is the link to Donations.tsx
+    { label: 'Contacts', section: '/contact-us' },
   ];
 
   // Render navigation links

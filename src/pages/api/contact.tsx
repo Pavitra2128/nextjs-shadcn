@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import sendEmail from '../sendEmail';// Adjust the path if necessary
+import sendEmail from '../sendEmail'; // Adjust the path if necessary
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {

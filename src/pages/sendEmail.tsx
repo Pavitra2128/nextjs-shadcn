@@ -1,11 +1,11 @@
 import nodemailer from 'nodemailer';
 import mg from 'nodemailer-mailgun-transport';
 
-// Mailgun configuration
+// Load environment variables
 const mailgunAuth = {
   auth: {
-    api_key: '8cb07055abc4fd50facb222197a0fd05-0f1db83d-498175d3', // Replace with your Mailgun API key
-    domain: 'sandbox7535564fc66b4b84bfee93e8d455c547.mailgun.org',   
+    api_key: process.env.MAILGUN_API_KEY, // Use environment variable for API key
+    domain: process.env.MAILGUN_DOMAIN,   // Use environment variable for domain
   },
 };
 
@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport(mg(mailgunAuth));
 
 const sendEmail = async (to: string, subject: string, html: string) => {
   const mailOptions = {
-    from: 'templewebsite0508@example.com', // Replace with your verified Mailgun sender email
+    from: process.env.EMAIL_USER, // Use environment variable for the sender email
     to,
     subject,
     html,
