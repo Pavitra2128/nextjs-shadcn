@@ -1,3 +1,4 @@
+// components/ContactUs.tsx
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin } from 'react-feather';
 import Image from 'next/image';
@@ -28,6 +29,7 @@ const ContactUs: React.FC = () => {
     setLoading(true);
 
     try {
+      console.log('Form submitted:', formData); // Log form data
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -35,6 +37,8 @@ const ContactUs: React.FC = () => {
         },
         body: JSON.stringify(formData),
       });
+
+      console.log('Response status:', response.status); // Log response status
 
       if (response.ok) {
         toast.success('Your message has been sent successfully!');
@@ -112,96 +116,80 @@ const ContactUs: React.FC = () => {
               <Phone size={60} className="text-maroon" />
               <div>
                 <h2 className="text-xl font-semibold">Phone Number</h2>
-                <p className="mt-1 text-base">+91 20 24496464</p>
+                <p className="mt-1 text-base">09553128981</p>
               </div>
             </div>
 
-            {/* Email */}
+            {/* Email Address */}
             <div className="flex items-start space-x-4 p-4">
               <Mail size={60} className="text-maroon" />
               <div>
-                <h2 className="text-xl font-semibold">Email</h2>
-                <p className="mt-1 text-base">contact.dhgt@gmail.com</p>
+                <h2 className="text-xl font-semibold">Email Address</h2>
+                <p className="mt-1 text-base">pavitra2128@gmail.com</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Contact Form */}
-        <div className="flex flex-col flex-1 space-y-4">
-          <form onSubmit={handleSubmit} className="flex flex-col space-y-4 bg-white p-6 shadow-lg rounded-lg">
-            <div className="flex flex-col space-y-1">
-              <label htmlFor="name" className="text-lg font-semibold">Name</label>
-              <input
-                id="name"
-                type="text"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Enter your Name"
-                className="p-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-
-            <div className="flex flex-col space-y-1">
-              <label htmlFor="phone" className="text-lg font-semibold">Phone</label>
-              <input
-                id="phone"
-                type="text"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Enter your Phone"
-                className="p-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-
-            <div className="flex flex-col space-y-1">
-              <label htmlFor="email" className="text-lg font-semibold">Email</label>
-              <input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Enter your Email"
-                className="p-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-
-            <div className="flex flex-col space-y-1">
-              <label htmlFor="subject" className="text-lg font-semibold">Your Subject</label>
-              <input
-                id="subject"
-                type="text"
-                value={formData.subject}
-                onChange={handleChange}
-                placeholder="Subject..."
-                className="p-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-
-            <div className="flex flex-col space-y-1">
-              <label htmlFor="message" className="text-lg font-semibold">Message</label>
-              <textarea
-                id="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Enter your Message"
-                className="p-2 border border-gray-300 rounded-lg"
-                rows={4}
-              />
-            </div>
-
+        <div className="flex-1">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <input
+              type="text"
+              id="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              required
+            />
+            <input
+              type="text"
+              id="phone"
+              placeholder="Phone Number"
+              value={formData.phone}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              required
+            />
+            <input
+              type="email"
+              id="email"
+              placeholder="Email Address"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              required
+            />
+            <input
+              type="text"
+              id="subject"
+              placeholder="Subject"
+              value={formData.subject}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              required
+            />
+            <textarea
+              id="message"
+              placeholder="Your Message"
+              value={formData.message}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              rows={6}
+              required
+            />
             <button
               type="submit"
-              className="w-full py-2 bg-maroon text-white font-bold rounded-lg shadow-md hover:bg-maroon-dark transition-colors duration-300"
+              className="w-full py-2 bg-maroon text-white font-semibold rounded-md"
               disabled={loading}
             >
-              {loading ? 'Submitting...' : 'Submit'}
+              {loading ? 'Sending...' : 'Send Message'}
             </button>
           </form>
         </div>
       </div>
 
-      {/* Toast Container */}
       <ToastContainer />
     </div>
   );

@@ -3,7 +3,7 @@ import Navbar from './NavBar';
 import Image from 'next/image';
 import FooterSection from './FooterSection';
 import CalendarDemo from './CalendarDemo';
-import GreenGod from '../../public/GreenGod.png';
+import GreenGod from '../../public/GreenGod.svg';
 
 const NewsAndEvents: React.FC = () => {
     return (

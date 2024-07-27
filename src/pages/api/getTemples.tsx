@@ -1,17 +1,12 @@
 import mysql2 from 'mysql2';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const con = mysql2.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'temple',
-});
+import con from './db';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'GET') {
       
-      const query = 'SELECT id, name FROM temples';
+      const query = 'SELECT id, name FROM temple_temples';
       con.query(query,(err, results) => {
         if (err) {
           console.error('Error fetching events:', err);
@@ -24,4 +19,3 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       res.status(405).json({ error: 'Method Not Allowed' });
     }
   }
-  

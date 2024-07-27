@@ -1,27 +1,27 @@
-// pages/api/contact.ts
-import mysql2 from 'mysql2';
 import { NextApiRequest, NextApiResponse } from 'next';
+import sendEmail from '../sendEmail';// Adjust the path if necessary
 
-const con = mysql2.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'temple',
-});
-
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const { name, phone, email, subject, message } = req.body;
 
-    const query = 'INSERT INTO contact_us (name, phone, email, subject, message) VALUES (?, ?, ?, ?, ?)';
-    con.query(query, [name, phone, email, subject, message], (err, result) => {
-      if (err) {
-        console.error('Error inserting contact form data:', err);
-        res.status(500).send('Error inserting data');
-        return;
-      }
-      res.status(200).send('Message sent successfully');
-    });
+    const htmlString = `
+      <p>You have received a new message from your contact us form.</p>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Phone:</strong> ${phone}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Subject:</strong> ${subject}</p>
+      <p><strong>Message:</strong> ${message}</p>
+    `;
+
+    try {
+      console.log('Sending email with data:', { to: 'pavitra2128@gmail.com', subject: `Contact Us Form: ${subject}`, html: htmlString });
+      await sendEmail('pavitra2128@gmail.com', `Contact Us Form: ${subject}`, htmlString);
+      res.status(200).json({ message: 'Message sent successfully' });
+    } catch (error) {
+      console.error('Error sending email:', error);
+      res.status(500).json({ error: 'There was an error sending your message.' });
+    }
   } else {
     res.status(405).json({ error: 'Method Not Allowed' });
   }

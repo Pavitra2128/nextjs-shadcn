@@ -1,17 +1,10 @@
 import mysql2 from 'mysql2';
 import { NextApiRequest, NextApiResponse } from 'next';
-
-const con = mysql2.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'temple',
-});
-
+import con from './db';
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'DELETE') {
     const { eventId } = req.body;
-    const query = 'DELETE FROM events WHERE id = ?';
+    const query = 'DELETE FROM temple_events WHERE id = ?';
     con.query(query, [eventId], (err, result) => {
       if (err) {
         console.error('Error deleting event:', err);

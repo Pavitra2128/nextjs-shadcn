@@ -1,17 +1,11 @@
 import mysql2 from 'mysql2';
 import { NextApiRequest, NextApiResponse } from 'next';
-
-const con = mysql2.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'temple',
-});
+import con from './db';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
     const { templeId } = req.query;
-    const query = 'SELECT * FROM events WHERE temple_id = ?';
+    const query = 'SELECT * FROM temple_events WHERE temple_id = ?';
     con.query(query, [templeId], (err, results) => {
       if (err) {
         console.error('Error fetching events:', err);

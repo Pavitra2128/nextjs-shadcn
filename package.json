@@ -36,6 +36,8 @@
     "mysql2": "^3.10.1",
     "net": "^1.0.2",
     "next": "^14.2.3",
+    "nodemailer": "^6.9.14",
+    "nodemailer-mailgun-transport": "^2.1.5",
     "react": "^18",
     "react-datepicker": "^7.1.0",
     "react-day-picker": "^8.10.1",
@@ -49,6 +51,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/nodemailer-mailgun-transport": "^1.4.6",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.19",
