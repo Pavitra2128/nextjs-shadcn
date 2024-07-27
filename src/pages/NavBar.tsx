@@ -62,7 +62,7 @@ const Navbar = () => {
           <NavigationMenuItem key={link.section}>
             <NavigationMenuLink asChild>
               <Link href={link.section} passHref>
-                <div className="text-maroon hover:text-white hover:bg-maroon px-4 py-3 rounded text-lg font-bold transition-colors duration-300">
+                <div className="text-maroon hover:text-white hover:bg-maroon px-2 py-2 rounded text-md font-bold transition-colors duration-300">
                   {link.label}
                 </div>
               </Link>
@@ -75,19 +75,21 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="flex items-center justify-between p-4 bg-white shadow-md relative">
-        <div className="flex items-center space-x-4">
-          <img src="/logo.jpg" alt="Logo" className="h-16 w-16 sm:h-20 sm:w-20" />
-          <div className="text-maroon text-xl sm:text-3xl font-hindi font-bold whitespace-nowrap">
-            सारसबाग गणपति
+      <nav className="flex items-center justify-between p-2 bg-white shadow-md relative">
+        <div className="flex items-center space-x-2">
+          <img src="/logo.jpg" alt="Logo" className="h-10 w-10 sm:h-14 sm:w-14 lg:h-16 lg:w-16" />
+          <div className="flex items-center space-x-2">
+            <div className="text-maroon text-sm sm:text-lg lg:text-xl font-hindi font-bold whitespace-nowrap">
+              सारसबाग गणपति
+            </div>
+            <button onClick={toggleSound} className="text-maroon">
+              {isPlaying ? <Volume2 size={20} /> : <VolumeX size={20} />}
+            </button>
           </div>
-          <button onClick={toggleSound} className="text-maroon">
-            {isPlaying ? <Volume2 size={36} /> : <VolumeX size={36} />}
-          </button>
         </div>
 
         <button className="lg:hidden text-gray-600 focus:outline-none" onClick={toggleMobileMenu}>
-          {isMobileMenuOpen ? <ChevronUpIcon size={24} /> : <ChevronDownIcon size={24} />}
+          {isMobileMenuOpen ? <ChevronUpIcon size={20} /> : <ChevronDownIcon size={20} />}
         </button>
 
         <div className="hidden lg:flex justify-center">
