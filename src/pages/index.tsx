@@ -6,10 +6,10 @@ import { ChevronUpIcon } from 'lucide-react';
 import HomePage from './HomePagr';
 
 const Home: React.FC = () => {
-  const homeRef = useRef<HTMLElement>(null);
-  const aboutRef = useRef<HTMLElement>(null);
-  const managementsRef = useRef<HTMLElement>(null);
-  const galleryRef = useRef<HTMLElement>(null);
+  const homeRef = useRef<HTMLDivElement>(null);
+  const aboutRef = useRef<HTMLDivElement>(null);
+  const managementsRef = useRef<HTMLDivElement>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
 
   const [currentSection, setCurrentSection] = useState<string>('home');
 

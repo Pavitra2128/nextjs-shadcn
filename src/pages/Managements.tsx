@@ -40,6 +40,7 @@ const Managements: React.FC = () => {
   const color = "#A45A52";
 
   return (
+    <div>
     <div className="min-h-screen bg-maroon text-white flex flex-col justify-center items-center">
       <h1 className="text-4xl font-bold mb-6">Managements</h1>
       <div className="absolute left-20 top-3/2 transform -translate-y-8/2">
@@ -53,7 +54,7 @@ const Managements: React.FC = () => {
         </button>
       </div>
       {/* Upper Separate Card */}
-      <Card className="bg-white text-black p-6 rounded-lg shadow-lg mb-4 max-w-5xl">
+      <Card className="bg-white text-black p-6 rounded-lg shadow-lg mb-4 max-w-3xl">
         <div className="flex items-center">
           <div className="w-1/3 flex justify-center">
             <User size={200} color={color} className="md:w-1/2 lg:w-full" />
@@ -69,7 +70,7 @@ const Managements: React.FC = () => {
       {/* Three Separate Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {slides.slice(1, 4).map((slide, index) => (
-          <Card key={slide.id} className="bg-white text-black p-4 rounded-lg shadow-lg">
+          <Card key={slide.id} className="bg-white text-black p-2 rounded-lg shadow-lg">
             <div className="flex items-center">
               <div className="w-1/3 flex justify-center">
                 <User size={100} color={profileIconColor} className="md:w-1/2 lg:w-full" />
@@ -91,6 +92,10 @@ const Managements: React.FC = () => {
           />
         ))}
       </div>
+      {/* White Line */}
+
+    </div>
+    <div className="w-full border-t border-white mt-8"></div>
     </div>
   );
 };
