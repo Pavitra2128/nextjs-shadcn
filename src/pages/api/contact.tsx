@@ -15,8 +15,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     `;
 
     try {
-      console.log('Sending email with data:', { to: 'pavitra2128@gmail.com', subject: `Contact Us Form: ${subject}`, html: htmlString });
-      await sendEmail('pavitra2128@gmail.com', `Contact Us Form: ${subject}`, htmlString);
+      console.log('Sending email with data:', { to: process.env.RECEIVER_EMAIL, subject: `Contact Us Form: ${subject}`, html: htmlString });
+      await sendEmail(process.env.RECEIVER_EMAIL as string, `Contact Us Form: ${subject}`, htmlString);
       res.status(200).json({ message: 'Message sent successfully' });
     } catch (error) {
       console.error('Error sending email:', error);
