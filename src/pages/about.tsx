@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 const About: React.FC = () => {
   return (
-    <div className='relative p-4 mb-20 md:mb-40'>
+    <div className='relative p-4 mb-20 md:mb-41'>
       <div className='mb-6'>
         <h1 className="text-maroon font-bold text-4xl text-center mb-10 md:mb-16">About Us</h1>
       </div>
