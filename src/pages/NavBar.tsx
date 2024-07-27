@@ -2,11 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuLink } from "@/components/ui/navigation-menu";
 import { ChevronDownIcon, ChevronUpIcon, Volume2, VolumeX } from 'lucide-react';
 import { useRouter } from 'next/router';
-import Link from 'next/link'; // Import next/link for navigation
+import Link from 'next/link';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false); // Assuming initially play the audio
+  const [isPlaying, setIsPlaying] = useState(true); // Initially play the audio
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const router = useRouter();
 
@@ -24,21 +24,39 @@ const Navbar = () => {
   useEffect(() => {
     if (!audioRef.current) {
       audioRef.current = new Audio('/Shiva-Stotram.mp3');
-      audioRef.current.loop = true; // Loop the audio
+      audioRef.current.loop = true;
     }
 
+    const playAudio = () => {
+      if (audioRef.current && isPlaying) {
+        audioRef.current.play().catch(error => {
+          console.error("Error attempting to play audio:", error);
+        });
+      }
+    };
+
+    const handleUserInteraction = () => {
+      playAudio();
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('keydown', handleUserInteraction);
+    };
+
     if (isPlaying) {
-      audioRef.current.play().catch(error => {
-        console.error("Error attempting to play audio:", error);
-      });
+      playAudio();
     } else {
       audioRef.current.pause();
     }
+
+    // Add event listeners for user interaction
+    document.addEventListener('click', handleUserInteraction);
+    document.addEventListener('keydown', handleUserInteraction);
 
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
       }
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('keydown', handleUserInteraction);
     };
   }, [isPlaying]);
 
