@@ -1,9 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { GetStaticProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Managements from './Managements';
 import Gallery from './Gallery';
 import About from './about';
+import HomePage from './HomePagr'; // Ensure the filename is correct
 import { ChevronUpIcon } from 'lucide-react';
-import HomePage from './HomePagr';
 
 const Home: React.FC = () => {
   const homeRef = useRef<HTMLDivElement>(null);
@@ -13,7 +15,6 @@ const Home: React.FC = () => {
 
   const [currentSection, setCurrentSection] = useState<string>('home');
 
-  // Update current section based on scroll position
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight / 2;
@@ -84,5 +85,11 @@ const Home: React.FC = () => {
     </div>
   );
 };
+
+export const getStaticProps: GetStaticProps = async ({ locale = 'en' }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ['common'])),
+  },
+});
 
 export default Home;
