@@ -73,10 +73,10 @@ const Navbar = () => {
     { label: t('navbar.about'), section: '/about' },
     { label: t('navbar.managements'), section: '/Managements' },
     { label: t('navbar.gallery'), section: '/Gallery' },
-    { label: t('navbar.newsEvents'), section: '/news-events', external: true },
+    { label: t('navbar.newsEvents'), section: '/NewsAndEvents', external: true },
     { label: t('navbar.ourTemples'), section: '/Temples' },
     { label: t('navbar.donations'), section: '/donations' },
-    { label: t('navbar.contacts'), section: '/contact-us' },
+    { label: t('navbar.contacts'), section: '/Contact' },
   ];
 
   const renderLinks = (isMobile = false) => (
@@ -169,12 +169,5 @@ const Navbar = () => {
     </>
   );
 };
-export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
-  const locale = context.locale || 'en'; // Default to 'en' if no locale is provided
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common'])),
-    },
-  };
-};
+
 export default Navbar;
