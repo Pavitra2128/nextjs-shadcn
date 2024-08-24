@@ -6,6 +6,8 @@ import GreenGod from '../../public/GreenGod.png';
 import Link from '../../public/Link.jpg'; // Assuming Link.jpg is an image
 import Link2 from '../../public/Link2.jpg'; 
 import Container from '../../public/Container.jpg'; // Assuming Container.jpg is an image
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetStaticProps, GetStaticPropsContext } from 'next';
 const Temples: React.FC = () => {
     return (
         <div className="min-h-screen flex flex-col">
@@ -48,5 +50,12 @@ const Temples: React.FC = () => {
         </div>
     );
 };
-
+export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
+    const locale = context.locale || 'en'; // Default to 'en' if no locale is provided
+    return {
+      props: {
+        ...(await serverSideTranslations(locale, ['common'])),
+      },
+    };
+  };
 export default Temples;

@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { AsteriskIcon } from 'lucide-react';
 import img1 from '../../public/img1.jpg';
 import { Button } from '@/components/ui/button';
+import { GetStaticProps, GetStaticPropsContext } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const About: React.FC = () => {
   return (
@@ -57,5 +59,12 @@ const About: React.FC = () => {
     </div>
   );
 };
-
+export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
+  const locale = context.locale || 'en'; // Default to 'en' if no locale is provided
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
+};
 export default About;

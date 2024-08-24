@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button"; // Ensure you have this import for shadcn button
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetStaticProps, GetStaticPropsContext } from 'next';
 
 const Gallery: React.FC = () => {
   return (
@@ -29,6 +31,14 @@ const Gallery: React.FC = () => {
       <Button className="bg-maroon text-white rounded-full py-2 px-4">View More</Button>
     </div>
   );
+};
+export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
+  const locale = context.locale || 'en'; // Default to 'en' if no locale is provided
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
 };
 
 export default Gallery;

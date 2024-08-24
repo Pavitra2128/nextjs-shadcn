@@ -1,4 +1,6 @@
 import { Card, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { GetStaticProps, GetStaticPropsContext } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, User } from 'react-feather';
 
@@ -99,5 +101,12 @@ const Managements: React.FC = () => {
     </div>
   );
 };
-
+export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
+  const locale = context.locale || 'en'; // Default to 'en' if no locale is provided
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
+};
 export default Managements;

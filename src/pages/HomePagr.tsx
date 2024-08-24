@@ -1,6 +1,8 @@
 // HomePage.tsx
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetStaticProps, GetStaticPropsContext } from 'next';
 
 const HomePage: React.FC = () => {
   return (
@@ -16,5 +18,12 @@ const HomePage: React.FC = () => {
     </div>
   );
 };
-
+export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
+  const locale = context.locale || 'en'; // Default to 'en' if no locale is provided
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
+};
 export default HomePage;

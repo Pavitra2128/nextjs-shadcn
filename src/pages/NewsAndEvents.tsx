@@ -4,6 +4,8 @@ import Image from 'next/image';
 import FooterSection from './FooterSection';
 import CalendarDemo from './CalendarDemo';
 import GreenGod from '../../public/GreenGod.svg';
+import { GetStaticProps, GetStaticPropsContext } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const NewsAndEvents: React.FC = () => {
     return (
@@ -30,5 +32,12 @@ const NewsAndEvents: React.FC = () => {
         </div>
     );
 };
-
+export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
+    const locale = context.locale || 'en'; // Default to 'en' if no locale is provided
+    return {
+      props: {
+        ...(await serverSideTranslations(locale, ['common'])),
+      },
+    };
+  };
 export default NewsAndEvents;

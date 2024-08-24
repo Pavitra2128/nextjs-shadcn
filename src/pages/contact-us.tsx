@@ -5,6 +5,8 @@ import Image from 'next/image';
 import GreenGod from '../../public/GreenGod.png';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetStaticProps, GetStaticPropsContext } from 'next';
 
 const ContactUs: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -194,5 +196,12 @@ const ContactUs: React.FC = () => {
     </div>
   );
 };
-
+export const getStaticProps: GetStaticProps = async (context: GetStaticPropsContext) => {
+  const locale = context.locale || 'en'; // Default to 'en' if no locale is provided
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
+};
 export default ContactUs;
